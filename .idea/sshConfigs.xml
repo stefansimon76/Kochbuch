@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="retro-planer.de" id="f5b6c1c8-9563-41a5-90a8-81db20db7ebd" port="22" nameFormat="DESCRIPTIVE" username="web528" />
+    </configs>
+  </component>
+</project>

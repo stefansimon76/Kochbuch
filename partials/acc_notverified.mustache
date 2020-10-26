@@ -1,0 +1,15 @@
+<div class="card-body">
+    <h4 class="card-title">Verifizierung erforderlich</h4>
+    <div class="card-text mb-2">
+        Hallo <b>{{_SESSION.realname}}</b>,
+    </div>
+    <div class="card-text mb-2">
+        Bitte aktivieren Sie Ihren Account und melden Sie sich anschließend an, um Rezepte zu erstellen und Kommentare zu verfassen.
+    </div>
+    <div class="card-text mb-2">
+        Keine E-Mail erhalten? Bitte prüfen Sie Ihren Spam-Ordner. Erneut <a class="card-link" href="/verify/{{userid}}">senden</a>
+    </div>
+    <div class="card-text">
+        Zur <a class="card-link" href="/login/{{_SESSION.loginname}}">Anmeldung</a>
+    </div>
+</div>

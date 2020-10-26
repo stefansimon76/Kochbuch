@@ -1,0 +1,47 @@
+    <div class="card-body">
+        <form method="POST" action="/login" onsubmit="return validateLoginForm()">
+            <h4 class="card-title">Anmelden</h4>
+            <div class="card-text mb-2">
+                Wenn Sie einen Account erstellen, können Sie Rezepte erstellen und kommentieren. Außerdem erhalten Sie, wenn Sie Rezepte liken, entsprechende Rezeptvorschläge für das Wochenende.
+            </div>
+
+            {{#infos}}
+                <div class="card alert-info p-1 mb-2">
+                    <div>{{.}}</div>
+                </div>
+            {{/infos}}
+
+            {{#errors}}
+                <div id="server_errors" class="card alert-danger p-1 mb-2">
+                    <div>{{.}}</div>
+                </div>
+            {{/errors}}
+            <div id="client_errors" class="card alert-danger p-1 mb-2" hidden="hidden">
+            </div>
+
+            <div class="form-group">
+                <label for="loginname" hidden="hidden"></label>
+                <input class="form-control" id="loginname" type="text" name="loginname"
+                       placeholder="Benutzername"
+                       value="{{loginname}}" minlength="5" maxlength="20">
+            </div>
+            <div class="form-group">
+                <label for="password" hidden="hidden"></label>
+                <input class="form-control" id="password" type="password" name="password"
+                       placeholder="Passwort"
+                       value="" minlength="8" maxlength="20">
+                <input type="hidden" id="md5pw1" name="md5pw1" value="" />
+            </div>
+
+            <div class="form-group">
+                Ich habe mein <a class="card-link" href="/password_forgotten">Passwort vergessen</a>
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Anmelden</button>
+            </div>
+
+            Ich habe noch keinen Account und möchte mich <a class="card-link" href="/register">registrieren</a>
+
+        </form>
+    </div>

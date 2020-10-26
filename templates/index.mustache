@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="http://retro-planer.de/kochbuch/images/favicon.png" type = "image/png">
+    <link rel="stylesheet" href="/@kochbuch.css">
+<!--    <link rel="stylesheet" href="/extern/bootstrap-4.5.3-dist/css/bootstrap-grid.css">-->
+<!--    <link rel="stylesheet" href="/extern/bootstrap-4.5.3-dist/css/bootstrap-reboot.css">-->
+    <link rel="stylesheet" href="/extern/bootstrap-4.5.3-dist/css/bootstrap.min.css">
+    <title>Kochbuch</title>
+</head>
+<body>
+{{#_SESSION.showCookiePopup}}
+    {{>cookie}} {{! ggf. Hinweis auf die Verwendung von Cookies anzeigen }}
+{{/_SESSION.showCookiePopup}}
+
+<div class="container mw-100">
+    <div class="card">
+        <div class="card-header">{{>header}}</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-lg-9 col-md-8 order-2 order-lg-1 order-md-1">
+                    <div id="rezept" class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Card title</h4>
+                            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam animi aperiam atque, dicta, doloribus dolorum ducimus fugiat, illum in molestias mollitia omnis porro quaerat quibusdam ratione saepe veniam voluptates!</span><span>Autem consequuntur, eius modi molestiae necessitatibus provident quaerat voluptatem voluptates? Aut autem deleniti, dolorem doloribus ducimus et eveniet expedita illum impedit ipsa minima molestiae molestias neque obcaecati placeat quibusdam sunt?</span><span>Aliquam autem distinctio dolor doloremque eius inventore molestias nobis quae quam, tenetur. Accusantium autem beatae debitis dolores eveniet explicabo magni modi repudiandae! Corporis expedita libero omnis perferendis quam repellat tempora!</span><span>Accusantium, atque dolores eligendi mollitia quae quaerat sequi. Adipisci assumenda commodi cupiditate dignissimos eaque earum esse, eum excepturi in itaque natus perferendis placeat quas quia rerum ullam veritatis. Commodi, vero?</span><span>Aperiam deleniti perspiciatis repellendus! Accusamus, beatae commodi cupiditate debitis delectus dolore doloribus excepturi expedita facilis harum in iste laborum nam, natus necessitatibus nemo neque nisi perspiciatis quam quo sed vel?</p>
+                            <a href="#" class="card-link">Card link</a>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col order-sm-1 order-xs-1" >
+                    <div id="userdata" class="card">
+                        {{#_SESSION.renderLogin}}
+                            {{>acc_login}} {{! Formular "Anmelden" anzeigen }}
+                        {{/_SESSION.renderLogin}}
+                        {{#_SESSION.renderVerify}}
+                            {{>acc_notverified}} {{! Benutzer ist noch nicht verifiziert }}
+                        {{/_SESSION.renderVerify}}
+                        {{#_SESSION.renderUserinfo}}
+                            {{>acc_userinfo}} {{! "Benutzerinformationen" anzeigen }}
+                        {{/_SESSION.renderUserinfo}}
+                        {{#_SESSION.renderRegister}}
+                            {{>acc_register}} {{! Formular "Registrierung" anzeigen }}
+                        {{/_SESSION.renderRegister}}
+                        {{#_SESSION.renderPasswortVergessen}}
+                            {{>acc_pwforgotten}} {{! Formular "Passwort vergessen" anzeigen }}
+                        {{/_SESSION.renderPasswortVergessen}}
+                        {{#_SESSION.renderThanksForRegister}}
+                            {{>acc_danke}} {{! für die Registrierung bedanken}}
+                        {{/_SESSION.renderThanksForRegister}}
+                        {{#_SESSION.renderPasswortChange}}
+                            {{>acc_pwchange}} {{! Formular "Passwort ändern" anzeigen }}
+                        {{/_SESSION.renderPasswortChange}}
+                    </div>
+                    <div id="news" class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Neuigkeiten</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            {{>footer}}
+        </div>
+    </div>
+</div>
+
+<script src="/helper/md5.js"></script>
+<script type="text/javascript">
+        <!--
+
+        function cookieOk() {
+            let now = new Date(); // Variable für aktuelles Datum
+            let lifetime = now.getTime(); // Variable für Millisekunden seit 1970 bis aktuelles Datum
+            let deleteCookie = lifetime + 2592000000; // Macht den Cookie 30 Tage gültig.
+
+            now.setTime(deleteCookie);
+            let enddate = now.toUTCString();
+
+            document.cookie = "setCookieHinweis = set; path=/; secure:false; expires=" + enddate;
+            document.getElementById("cookie-popup").classList.add("hidden");
+        }
+
+        function validateLoginForm() {
+            // Password hashen und nur den Hash posten
+            this.md5pw1.value = md5(this.password.value);
+            this.password.value = '';
+            return true;
+        }
+
+        function validateRegisterForm() {
+            removeErrors();
+            let hasErrors = 0;
+            if (this.loginname.value.length < 5) {
+                hasErrors++;
+                insertError("Der Anmeldename muss mindestens 5 Zeichen lang sein");
+            }
+
+            let loginnameRegex = /^[a-zA-Z0-9]+$/;
+            if (!this.loginname.value.match(loginnameRegex)) {
+                insertError("Der Anmeldename darf nur Buchstaben und Ziffern enthalten (keine Sonderzeichen und kein Leerzeichen)");
+            }
+
+            if (this.password.value.length < 8) {
+                hasErrors++;
+                insertError("Das Passwort muss mindestens 8 Zeichen lang sein");
+            }
+            if (this.password.value !== this.passwordRepeat.value) {
+                hasErrors++;
+                insertError("Die Passwörter müssen identisch sein, um Tippfehler ausschließen zu können");
+            }
+            if (this.email.value.length < 5) {
+                hasErrors++;
+                insertError("Bitte geben Sie eine gültige E-Mail Adresse ein");
+            }
+
+            let terms = document.getElementById('terms');
+            if (!terms.checked) {
+                hasErrors++;
+                insertError("Bitte akzeptieren Sie die Nutzungsbedingungen");
+            }
+
+            if (hasErrors > 0)
+                return false;
+
+            // Password hashen und nur den Hash posten
+            this.md5pw1.value = md5(this.password.value);
+            this.password.value = '';
+
+            this.md5pw2.value = md5(this.passwordRepeat.value);
+            this.passwordRepeat.value = '';
+            return true;
+        }
+
+        function validatePwChangeForm() {
+            removeErrors();
+            let hasErrors = 0;
+            if (this.password.value.length < 8) {
+                hasErrors++;
+                insertError("Das Passwort muss mindestens 8 Zeichen lang sein");
+            }
+            if (this.password.value !== this.passwordRepeat.value) {
+                hasErrors++;
+                insertError("Die Passwörter müssen identisch sein, um Tippfehler ausschließen zu können");
+            }
+            if (hasErrors > 0)
+                return false;
+
+            // Password hashen und nur den Hash posten
+            this.md5pwold.value = md5(this.password_old.value);
+            this.password_old.value = '';
+
+            this.md5pw1.value = md5(this.password.value);
+            this.password.value = '';
+
+            this.md5pw2.value = md5(this.passwordRepeat.value);
+            this.passwordRepeat.value = '';
+            return true;
+        }
+
+        function insertError($message) {
+            let tag = document.createElement("p");
+            //tag.className="mb-0";
+            let text = document.createTextNode($message);
+            tag.appendChild(text);
+            let element = document.getElementById("client_errors");
+            element.appendChild(tag);
+            element.hidden = false;
+        }
+
+        function removeErrors() {
+            let element = document.getElementById("client_errors");
+            element.hidden = true;
+            element.innerHTML = '';
+        }
+//-->
+</script>
+</body>
+</html>
