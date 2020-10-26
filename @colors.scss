@@ -1,0 +1,128 @@
+$color-brown-dark: #8B4513;
+$color-brown-light: #F5DEB3;
+$color-red-dark: #cd2c75;
+$color-blue-dark: #277dc2;
+$color-green-dark: #078a51 !default;
+
+
+
+//Accent
+$color-red: #ff4398 !default;
+$color-green: #32ee9b !default;
+$color-blue: #69bdff !default;
+$color-yellow: #ffd26a !default;
+$color-purple: #c17fff !default;
+
+//Gray scale
+$color-black: var(--color-black) !default;
+$color-raven: var(--color-raven) !default;
+$color-night: var(--color-night) !default;
+$color-asphalt: var(--color-asphalt) !default;
+$color-steel: var(--color-steel) !default;
+$color-fog: var(--color-fog) !default;
+$color-ice: var(--color-ice) !default;
+
+//Inverts
+$color-white: var(--color-white) !default;
+
+//UI colors
+$color-red-d1: #f6368d !default;
+$color-red-d2: #cd2c75 !default;
+
+$color-green-d1: #08d67b !default;
+$color-green-d2: #07b066 !default;
+
+$color-blue-d1: #2f94e4 !default;
+$color-blue-d2: #277dc2 !default;
+
+$color-yellow-d1: #f8bc32 !default;
+$color-yellow-d2: #edaa4f !default;
+
+$color-purple-d1: #b46df6 !default;
+$color-purple-d2: #985bd1 !default;
+
+// additional colors for a richer palette for charts, tags, etc.
+$color-violet: #8559e4 !default;
+$color-violet-d1: #764ecb !default;
+$color-violet-d2: #5a39a1 !default;
+
+$color-coral: #ff7a6a !default;
+$color-coral-d1: #ee6353 !default;
+$color-coral-d2: #db5444 !default;
+
+$color-arctic: #81e6f1 !default;
+$color-arctic-d1: #61d3e0 !default;
+$color-arctic-d2: #57bcc7 !default;
+
+$color-teal: #9bf2d2 !default;
+$color-teal-d1: #83e2bf !default;
+$color-teal-d2: #67cba6 !default;
+
+$color-azure: #3187f6 !default;
+$color-azure-d1: #2073dd !default;
+$color-azure-d2: #1a62c0 !default;
+
+// CSS variables are declared in _colors-css-variables.scss
+
+// Main colors map
+$main-colors: (
+        'red': $color-red,
+        'green': $color-green,
+        'blue': $color-blue,
+        'yellow': $color-yellow,
+        'purple': $color-purple,
+        'white': $color-white,
+        'night': $color-night,
+        'asphalt': $color-asphalt
+) !default;
+
+//Color map for all UI colors
+$illustration-colors: (
+        'red': $color-red,
+        'red-d1': $color-red-d1,
+        'red-d2': $color-red-d2,
+        'green': $color-green,
+        'green-d1': $color-green-d1,
+        'green-d2': $color-green-d2,
+        'blue': $color-blue,
+        'blue-d1': $color-blue-d1,
+        'blue-d2': $color-blue-d2,
+        'yellow': $color-yellow,
+        'yellow-d1': $color-yellow-d1,
+        'yellow-d2': $color-yellow-d2,
+        'purple': $color-purple,
+        'purple-d1': $color-purple-d1,
+        'purple-d2': $color-purple-d2,
+        'violet': $color-violet,
+        'violet-d1': $color-violet-d1,
+        'violet-d2': $color-violet-d2,
+        'coral': $color-coral,
+        'coral-d1': $color-coral-d1,
+        'coral-d2': $color-coral-d2,
+        'arctic': $color-arctic,
+        'arctic-d1': $color-arctic-d1,
+        'arctic-d2': $color-arctic-d2,
+        'teal': $color-teal,
+        'teal-d1': $color-teal-d1,
+        'teal-d2': $color-teal-d2,
+        'azure': $color-azure,
+        'azure-d1': $color-azure-d1,
+        'azure-d2': $color-azure-d2
+) !default;
+
+//Color map which all have a text, a border and and background class
+$colors: (
+        'white': var(--color-white),
+        'black': var(--color-black),
+        'raven': var(--color-raven),
+        'night': var(--color-night),
+        'asphalt': var(--color-asphalt),
+        'steel': var(--color-steel),
+        'fog': var(--color-fog),
+        'ice': var(--color-ice),
+        'red': $color-red,
+        'green': $color-green,
+        'blue': $color-blue,
+        'yellow': $color-yellow,
+        'purple': $color-purple
+) !default;

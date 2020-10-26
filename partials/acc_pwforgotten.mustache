@@ -1,0 +1,33 @@
+<div class="card-body">
+    <form method="POST" action="password_forgotten" onsubmit="return validateForm()">
+        <div class="section__content">
+            <h4 class="card-title">Neues Passwort anfordern</h4>
+
+            {{#errors}}
+                <div id="server_errors" class="card alert-danger p-1 mb-2">
+                    <div>{{.}}</div>
+                </div>
+            {{/errors}}
+            <div id="client_errors" class="card alert-danger p-1 mb-2" hidden="hidden">
+            </div>
+
+            <div class="card-text mb-2">
+                Bitte geben Sie Ihren Anmeldenamen oder die E-Mail Adresse ein, die Sie bei der Registrierung angegeben haben. Wir senden Ihnen dann Ihre neuen Zugangsdaten zu.
+            </div>
+
+            <div class="form-group">
+                <label for="loginname_or_email"></label>
+                <input class="form-control" id="loginname_or_email" type="text" name="loginname_or_email"
+                       placeholder="Anmeldename oder E-Mail Adresse"
+                       value="{{userinput}}" maxlength="200">
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Neues Passwort anfordern</button>
+            </div>
+
+            <a class="card-link" href="/login">Abbrechen</a>
+
+        </div>
+    </form>
+</div>

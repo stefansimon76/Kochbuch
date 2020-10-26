@@ -1,0 +1,133 @@
+//@import '@colors';
+@import "@cookie";
+
+//.grid-container {
+//  height:100vh;
+//  display: grid;
+//  grid-template-rows: 100px 1fr 1fr 1fr auto;
+//  grid-template-columns: 100%;
+//  grid-template-areas:
+//    "header"
+//    "userdata"
+//    "news"
+//    "content"
+//    "footer"
+//;
+//}
+//
+//@media screen and (min-width: 44.001em) {
+//  .grid-container {
+//    display: grid;
+//    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+//    grid-template-rows: 100px 1fr 1fr auto;
+//    gap: 0 0;
+//    grid-template-areas:
+//    "header header header header header"
+//    "content content content content userdata"
+//    "content content content content news"
+//    "content content content content footer";
+//  }
+//}
+//
+//.footer { grid-area: footer;
+//  background: whitesmoke;
+//  margin: 1px;
+//}
+//
+//.header { grid-area: header;
+//  background: whitesmoke;
+//  margin: 1px;
+//}
+//
+//.content { grid-area: content;
+//  background: whitesmoke;
+//  margin: 1px;
+//}
+//
+//.userdata { grid-area: userdata;
+//  background: whitesmoke;
+//  margin: 1px;
+//  min-width: 300px;
+//}
+//
+//.news { grid-area: news;
+//  background: whitesmoke;
+//  margin: 1px;
+//}
+//
+//
+//body, html {
+//  font-family: "proxima nova", sans-serif;
+//  font-weight: 400;
+//  line-height: 1.3em;
+//  color: $color-black;
+//  font-size: 15px;
+//  text-rendering: geometricPrecision;
+//  -webkit-backface-visibility: hidden;
+//}
+//
+//.auth {
+//  //min-height: 100vh;
+//}
+//
+//.auth-form {
+//  padding: 15px;
+//
+//  div.frm__control {
+//    margin: 15px;
+//    border:  0;
+//  }
+//
+//  p.frm__control {
+//    padding-bottom: 15px;
+//    border:  0;
+//  }
+//
+//  p.frm__last-control {
+//    margin-bottom: 0;
+//    border:  0;
+//  }
+//
+//  input.frm__control {
+//    margin-bottom: 5px;
+//    margin-left: -15px;
+//    padding: 15px;
+//    border:1px solid #ccc!important;
+//    border-radius: 5px;
+//    width: 100%;
+//  }
+//
+//}
+//
+//div.alert {
+//  color: $color-red-dark;
+//  text-align: left;
+//}
+//
+//div.info {
+//  color: $color-green-dark;
+//  text-align: left;
+//}
+//
+//button {
+//  padding: 15px;
+//  border-radius: 5px;
+//  border:  0;
+//}
+//
+//
+//.bg--blue {
+//  background-color: $color-blue-dark;
+//  color: white;
+//  width: 100%;
+//}
+//
+//.bg--red {
+//  background: $color-red-dark;
+//  color: white;
+//}
+//
+//.footer__center {
+//  font-size: 10px;
+//  text-align: center;
+//}

@@ -1,0 +1,50 @@
+<div class="card-body">
+    <form method="POST" action="/pwchange" onsubmit="return validatePwChangeForm()">
+        <div class="section__content">
+            <h4 class="card-title">Passwort ändern</h4>
+
+            {{#infos}}
+                <div class="card alert-info p-1 mb-2">
+                    <div>{{.}}</div>
+                </div>
+            {{/infos}}
+
+            {{#errors}}
+                <div id="server_errors" class="card alert-danger p-1 mb-2">
+                    <div>{{.}}</div>
+                </div>
+            {{/errors}}
+            <div id="client_errors" class="card alert-danger p-1 mb-2" hidden="hidden">
+            </div>
+
+            <div class="form-group">
+                <label for="password_old" hidden="hidden"></label>
+                <input class="form-control" id="password_old" type="password" name="password_old"
+                       placeholder="altes Passwort"
+                       value="" minlength="8" maxlength="20">
+                <input type="hidden" id="md5pwold" name="md5pwold" value="" />
+            </div>
+            <div class="form-group">
+                <label for="password" hidden="hidden"></label>
+                <input class="form-control" id="password" type="password" name="password"
+                       placeholder="neues Passwort"
+                       value="" minlength="8" maxlength="20">
+                <input type="hidden" id="md5pw1" name="md5pw1" value="" />
+            </div>
+            <div class="form-group">
+                <label for="passwordRepeat" hidden="hidden"></label>
+                <input class="form-control" id="passwordRepeat" type="password" name="passwordRepeat"
+                       placeholder="neues Password wiederholen"
+                       value="" minlength="8" maxlength="20">
+                <input type="hidden" id="md5pw2" name="md5pw2" value="" />
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Passwort ändern</button>
+            </div>
+
+            <a class="card-link" href="/">Abbrechen</a>
+        </div>
+
+    </form>
+</div>

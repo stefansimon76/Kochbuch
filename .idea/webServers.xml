@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="f0fbdcde-027c-414d-ba05-c0bdc68adb36" name="retro-planer.de/kochbuch" url="http://retro-planer.de">
+        <fileTransfer rootFolder="/htdocs/kochbuch" host="retro-planer.de" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
