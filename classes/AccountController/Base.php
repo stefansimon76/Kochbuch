@@ -40,7 +40,7 @@ class AccountController_Base extends BaseController
         // Zum Schluß, löschen der Session.
         session_destroy();
         //echo Layout::getInstance()->render('index', ['infos' => ['Sie haben Ihr Passwort erfolgreich geändert']]);
-        header('location:/');
+        redirect('/');
     }
 
     // ####################################################

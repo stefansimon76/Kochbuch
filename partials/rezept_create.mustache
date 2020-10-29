@@ -91,9 +91,10 @@
 
 <!--        https://startbootstrap.com/snippets/thumbnail-gallery/-->
 <!--        https://plugins.krajee.com/file-input-->
-<!--        <div class="file-loading">-->
-<!--            <input id="input-b7" name="bilder[]" multiple type="file" class="file" data-allowed-file-extensions='["csv", "txt"]'>-->
-<!--        </div>-->
+        <label for="input-res-1">Bilder hinzufügen</label>
+        <div class="file-loading">
+            <input id="input-res-1" name="input-res-1[]" type="file" multiple data-max-file-count="5">
+        </div>
 
 <!--        https://github.com/promosis/file-upload-with-preview-->
 
@@ -112,5 +113,37 @@
 <script type="text/javascript">
     addZutat();
     addZutat();
+</script>
+
+<script>
+    $(document).ready(function() {
+        $("#input-res-1").fileinput({
+            theme: 'fas',
+            maxFileCount: 5, // maximal 5 Bilder erlauben
+            overwriteInitial: true, // Initialdaten überschreiben
+            showClose: false, // X rechts oben ausblenden
+            maxFileSize: 5000, // maximale Dateigröße
+            showUpload: false, // globalen Upload-Button ausblenden
+            showRemove: false, // globalen Remove-Button ausblenden
+            uploadUrl: "/site/file-delete", // muss gesetzt sein, damit remove-Button bei jedem Bild sichtbar ist
+            fadeDelay: 400, // Animation verkürzen (default 800)
+
+            allowedFileTypes: ["image"],
+            allowedFileExtensions: ["jpg", "png"],
+
+            // nur den Remove-Button bei jedem Bild anzeigen
+            layoutTemplates: {
+                actions: '<div class="file-actions">\n' +
+                '    <div class="file-footer-buttons">\n' +
+                '        {delete}' +
+                '    </div>\n' +
+                '</div>\n' +
+                '{drag}\n' +
+                '<div class="clearfix"></div>'
+
+            },
+
+        });
+    });
 </script>
 
