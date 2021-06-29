@@ -18,6 +18,5 @@ function router($path,$http404,$action = null,$methods = 'POST|GET'){
         array_shift($matches);
         return call_user_func_array($action,$matches);
     }
-
     return call_user_func_array($http404,[$path]);
 }

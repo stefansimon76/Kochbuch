@@ -34,8 +34,6 @@ if (isset($_COOKIE['setCookieHinweis'])) {
     $_SESSION["showCookiePopup"] = true;
 }
 
-//}
-
 error_reporting(-1);
 ini_set('display_errors', 'On');
 
@@ -54,7 +52,7 @@ $http404 = function() {
         print_r($_SESSION);
     echo "</p>";
     // Umleiten zur Startseite
-    //header('location:/');
+    header('location:/');
 };
 
 router('/', $http404,[BaseController::class,'indexAction']);

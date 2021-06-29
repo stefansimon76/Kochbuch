@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 define('DATABASE_CONNECTION', [
     'host' => 'localhost',
-    'username' => 'web528_kochbuch',
-    'password' => 'jorEmbep6poyWrar',
-    'database' => 'web528_kochbuch',
+    'username' => 'root',
+    'password' => '?r4V0T_#fa',
+    'database' => 'kochbuch',
     'port' => 3306,
     'charset' => 'utf-8'
 ]);

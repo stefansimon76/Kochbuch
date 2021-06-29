@@ -40,7 +40,7 @@ class Benutzer {
         $realname = $this->realname;
         $vkey = $this->vkey;
         $subject = "Email verifizieren";
-        $message = "Hallo $realname, \n\nKlicken Sie hier um Ihren Account zu aktivieren. <a href='http://kochbuch.retro-planer.de/verify/$vkey'>http://kochbuch.retro-planer.de/verify/$vkey</a>";
+        $message = "Hallo $realname, \n\nKlicken Sie hier um Ihren Account zu aktivieren. <a href='https://kochbuch.taiskorgon.de/verify/$vkey'>https://kochbuch.taiskorgon.de/verify/$vkey</a>";
         Mail::send($to, $subject, $message);
     }
 

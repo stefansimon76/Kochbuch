@@ -35,8 +35,8 @@ CREATE TABLE `tab_benutzer` (
                                 `vkey` text COLLATE utf8mb4_unicode_ci,
                                 `verified` int(11) NOT NULL DEFAULT '0',
                                 `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                                `last_login` datetime NOT NULL,
-                                `token` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                `last_login` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                                `token` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
                                 `new_password` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
