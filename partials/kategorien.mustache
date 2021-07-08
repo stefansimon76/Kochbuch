@@ -1,0 +1,9 @@
+{{#categories}}
+    <li class="list-group-item list-group-item-action w-auto border-0">
+    <div class="custom-control custom-checkbox">
+        <input type="hidden" id="category_{{id}}" name="category_{{id}}">
+        <input class="custom-control-input" id="{{id}}" type="checkbox" data-value='{{id}}'>
+        <label class="cursor-pointer font-italic d-block custom-control-label" for="{{id}}">{{name}}</label>
+    </div>
+</li>
+{{/categories}}

@@ -19,6 +19,7 @@ class BaseController
     // ####################################################
     // Startseite anzeigen
     public static function indexAction(){
+        Layout::setBodyRenderer(RENDER_BODY_WELCOME);
         $user = Benutzer::findByToken();
         if ($user->pk > 0) {
             self::loginUser($user);
@@ -32,13 +33,16 @@ class BaseController
             }
             return;
         }
+        $_SESSION["renderWelcome"] = true;
         AccountController_Login::renderLogin();
     }
 
-    protected static function loginUser($user) {
+    protected static function loginUser(Benutzer $user) {
         $data=[
             'realname'=> $user->realname,
             'last_login' => $user->lastLogin,
+            'loginname' => $user->loginname,
+            'userid' => $user->pk,
         ];
         $token = $user->createRememberMeToken();
         if (strlen($token) > 0) {
@@ -47,6 +51,7 @@ class BaseController
         }
         $user->updateLastLogin();
         $_SESSION['userid'] = $user->pk;
+        $_SESSION["userdata"] = $data;
         AccountController_Base::renderUserinfo($data);
     }
 }

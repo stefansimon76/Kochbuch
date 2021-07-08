@@ -10,18 +10,6 @@ class AccountController_Base extends BaseController
     }
 
     // ####################################################
-    // Usersection zurücksetzen
-    protected static function unsetUserSection() {
-        $_SESSION["renderLogin"] = false;
-        $_SESSION["renderVerify"] = false;
-        $_SESSION["renderRegister"] = false;
-        $_SESSION["renderPasswortVergessen"] = false;
-        $_SESSION["renderThanksForRegister"] = false;
-        $_SESSION["renderUserinfo"] = false;
-        $_SESSION["renderPasswortChange"] = false;
-    }
-
-    // ####################################################
     // Benutzer abmelden
     public static function renderLogout() {
         // Löschen aller Session-Variablen.
@@ -46,8 +34,7 @@ class AccountController_Base extends BaseController
     // ####################################################
     // Benutzerdaten anzeigen
     public static function renderUserinfo($data) {
-        self::unsetUserSection();
-        $_SESSION["renderUserinfo"] = true;
+        Layout::setAccRenderer(RENDER_ACC_USERINFO);
         echo Layout::getInstance()->render('index', $data);
     }
 

@@ -11,11 +11,10 @@ class AccountController_Passwort extends AccountController_Base
     // ####################################################
     // GET Passwort vergessen
     public static function renderPasswortVergessen() {
-        self::unsetUserSection();
-        $_SESSION["renderPasswortVergessen"] = true;
         $data=[
             'userinput'=> filter_input(INPUT_POST, 'userinput'),
         ];
+        Layout::setAccRenderer(RENDER_ACC_PW_FORGOTTEN);
         echo Layout::getInstance()->render('index', $data);
     }
 
@@ -66,8 +65,7 @@ class AccountController_Passwort extends AccountController_Base
     // ####################################################
     // GET Passwort ändern
     public static function renderChangePasswort() {
-        self::unsetUserSection();
-        $_SESSION["renderPasswortChange"] = true;
+        Layout::setAccRenderer(RENDER_ACC_PW_CHANGE);
         echo Layout::getInstance()->render('index', []);
     }
 
@@ -94,8 +92,7 @@ class AccountController_Passwort extends AccountController_Base
                 'loginname'=> $_SESSION['loginname'],
                 'errors' => $errors,
             ];
-            self::unsetUserSection();
-            $_SESSION["renderPasswortChange"] = true;
+            Layout::setAccRenderer(RENDER_ACC_PW_CHANGE);
             echo Layout::getInstance()->render('index', $data);
             return;
         }

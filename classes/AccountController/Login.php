@@ -17,11 +17,10 @@ class AccountController_Login extends AccountController_Base
     // ####################################################
     // GET Anmeldeseite für angegebenen Benutzer anzeigen
     public static function renderLoginForUser($loginname) {
-        self::unsetUserSection();
-        $_SESSION["renderLogin"] = true;
         $data=[
             'loginname'=> $loginname,
         ];
+        Layout::setAccRenderer(RENDER_ACC_LOGIN);
         echo Layout::getInstance()->render('index', $data);
     }
 
@@ -43,11 +42,10 @@ class AccountController_Login extends AccountController_Base
         if (!$user->verified) {
             $_SESSION['realname'] = $user->realname;
             $_SESSION['loginname'] = $user->loginname;
-            self::unsetUserSection();
-            $_SESSION["renderVerify"] = true;
             $data = [
                 'userid' => $user->pk,
             ];
+            Layout::setAccRenderer(RENDER_ACC_VERIFY);
             echo Layout::getInstance()->render('index', $data);
             return;
         }

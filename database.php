@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-define('DATABASE_CONNECTION', [
+const DATABASE_CONNECTION = [
     'host' => 'localhost',
     'username' => 'root',
     'password' => '?r4V0T_#fa',
     'database' => 'kochbuch',
     'port' => 3306,
     'charset' => 'utf-8'
-]);
+];
 
 /**
  * @return mysqli | null
  */
-function getDb() {
+function getDb():mysqli|null {
     /**
      * @var mysqli|null
      */
@@ -42,7 +42,7 @@ function getDb() {
  * @param mysqli|null $db
  * @return string
  */
-function getDBError(mysqli $db = null) {
+function getDBError(mysqli $db = null):string {
     if (is_null($db)) {
         $db = getDb();
     }
@@ -56,7 +56,7 @@ function getDBError(mysqli $db = null) {
  * @param int $resultMode
  * @return bool|mysqli_result
  */
-function query(string $sql, mysqli $db = null, $resultMode = MYSQLI_STORE_RESULT) {
+function query(string $sql, mysqli $db = null, int $resultMode = MYSQLI_STORE_RESULT):bool|mysqli_result {
     if (is_null($db)) {
         $db = getDb();
     }
@@ -74,7 +74,7 @@ function query(string $sql, mysqli $db = null, $resultMode = MYSQLI_STORE_RESULT
  * @param mysqli|null $db
  * @return string
  */
-function escapeString(string $text, mysqli $db = null) {
+function escapeString(string $text, mysqli $db = null):string {
     if (is_null($db)) {
         $db = getDb();
     }

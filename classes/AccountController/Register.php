@@ -7,14 +7,13 @@ class AccountController_Register extends AccountController_Base
     // ####################################################
     // GET Registrierungsseite
     public static function renderRegister(array $errors=[]) {
-        self::unsetUserSection();
-        $_SESSION["renderRegister"] = true;
         $data=[
             'loginname'=> filter_input(INPUT_POST, 'loginname', FILTER_SANITIZE_STRING),
             'realname'=> filter_input(INPUT_POST, 'realname'),
             'email' => filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL),
             'errors' => $errors,
         ];
+        Layout::setAccRenderer(RENDER_ACC_REGISTER);
         echo Layout::getInstance()->render('index', $data);
     }
 
@@ -80,12 +79,11 @@ class AccountController_Register extends AccountController_Base
     // ####################################################
     // GET Danke für die Registrierung
     public static function renderThankYou() {
-        self::unsetUserSection();
-        $_SESSION["renderThanksForRegister"] = true;
         $data = [
             'realname' => $_SESSION["realname"],
             'loginname' => $_SESSION["loginname"],
         ];
+        Layout::setAccRenderer(RENDER_ACC_THANKS);
         echo Layout::getInstance()->render('index', $data);
     }
 
@@ -108,8 +106,7 @@ class AccountController_Register extends AccountController_Base
                 'loginname'=> $user->loginname,
                 'infos' => ['Die E-Mail mit dem Aktivierungslink wurde verschickt. Bitte aktivieren Sie Ihren Account und melden Sie sich anschließend an.'],
             ];
-            self::unsetUserSection();
-            $_SESSION["renderLogin"] = true;
+            Layout::setAccRenderer(RENDER_ACC_LOGIN);
             echo Layout::getInstance()->render('index', $data);
         }
     }
