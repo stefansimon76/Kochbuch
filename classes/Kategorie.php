@@ -89,6 +89,13 @@ class Kategorie {
         return $result;
     }
 
+    public static function getKategorieById(int $id):Kategorie {
+        $sql = sprintf("select `pk`, `parent`, `category_name` from `tab_kategorie` where pk = %d;"
+            , $id
+        );
+        return self::getKategorieFromDatabase($sql);
+    }
+
     public static function getKategorieByNameParent(string $name, int $parent_id):Kategorie {
         $sql = sprintf("select `pk`, `parent`, `category_name` from `tab_kategorie` where parent = %d and `category_name`='%s';"
             , $parent_id

@@ -121,13 +121,17 @@ class AccountController_Rezept extends AccountController_Base
 
             if (str_starts_with($key, "category_")) {
                 if ($value == "true") {
-                    $id = substr($key, strlen('category_pk'));
-                    $categories[] = (int) $id;
+                    $id = (int) substr($key, strlen('category_pk'));
+                    $categories[] = Kategorie::getKategorieById($id);
                 }
             }
         }
 
-        //$user = Benutzer::findByLoginname($loginname);
+        $rezept = Rezept::getRezeptById($rezept_id);
+        $rezept->kategorien = $categories;
+        $rezept->title=$title;
+        $rezept->desc = $description;
+        $rezept->userid = getCurrentUserID();
 //
 //        if ($user->pk > 0) {
 //            $errors[] = 'Der Anmeldename ist bereits vergeben';

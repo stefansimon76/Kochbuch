@@ -105,7 +105,8 @@ class Rezept {
         return $result;
     }
 
-    #[ArrayShape(['id' => "int", 'userid' => "int", 'title' => "string", 'description' => "string", 'createdz' => "string", 'zubereitung' => "array", 'zutaten' => "array", 'kategorien' => "array"])] public function toArray(): array {
+    #[ArrayShape(['id' => "int", 'userid' => "int", 'title' => "string", 'description' => "string", 'createdz' => "string", 'zubereitung' => "array", 'zutaten' => "array", 'kategorien' => "array"])]
+    public function toArray(): array {
         return array (
             'id' => $this->id,
             'userid' => $this->userid,
