@@ -59,7 +59,7 @@ router('/pwchange', $http404,[AccountController_Passwort::class,'postChangePassw
 router('/register', $http404,[AccountController_Register::class,'renderRegister'], 'GET');
 router('/register', $http404,[AccountController_Register::class,'postRegister'], 'POST');
 router('/rezepte/([a-zA-Z0-9]+)', $http404,[AccountController_Rezept::class,'renderRezepteByLoginname'], 'GET');
-router('/rezepte', $http404,[AccountController_Rezept::class,'renderRezepte'], 'GET');
+router('/rezepte', $http404,[AccountController_Rezept::class, 'renderListRezepte'], 'GET');
 router('/saveRezept', $http404,[AccountController_Rezept::class,'saveRezept'], 'POST');
 router('/addRezept', $http404,[AccountController_Rezept::class,'renderCreateRezept'], 'GET');
 router('/editRezept', $http404,[AccountController_Rezept::class,'editRezept'], 'GET');

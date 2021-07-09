@@ -1,5 +1,7 @@
 <div class="card-body" onload="onLoad();">
     <form method="POST" action="/saveRezept" enctype="multipart/form-data" onsubmit="return validateRezeptForm()">
+        <input type="hidden" name="rezept_id" value="{{rezept_id}}">
+
         <h4 class="card-title">Rezept anlegen</h4>
 
         <div id="infos" class="card alert-info p-1 mb-2">

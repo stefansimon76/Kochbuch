@@ -6,7 +6,7 @@ class AccountController_Rezept extends AccountController_Base
 {
     // ####################################################
     // GET Rezepte-Seite
-    public static function renderRezepte(array $errors=[]) {
+    public static function renderListRezepte(array $errors=[]) {
         $data=[
             'errors' => $errors,
         ];
@@ -24,7 +24,8 @@ class AccountController_Rezept extends AccountController_Base
         }
         $data=[
             'errors' => $errors,
-            'categories' =>$categories
+            'categories' =>$categories,
+            'rezept_id' => "0"
         ];
         $data = array_merge($data, $_SESSION["userdata"]);
         Layout::setBodyRenderer(RENDER_BODY_CREATE_REZEPT);
@@ -40,7 +41,7 @@ class AccountController_Rezept extends AccountController_Base
     }
 
     public static function renderRezepteByUserId(int $userid) {
-        self::renderRezepte([]);
+        self::renderListRezepte([]);
     }
 
     // ####################################################
@@ -63,9 +64,14 @@ class AccountController_Rezept extends AccountController_Base
             $mainImage = $pictures[0];
         }
 
-
+        $rezept_id = 0;
         foreach($_POST as $key => $value)
         {
+            if ($key === "rezept_id") {
+                $rezept_id = (int)$value;
+                continue;
+            }
+
             if( str_starts_with($key, 'menge_')) {
                 $id=substr($key, strlen('menge_'));
                 $menge = filter_input(INPUT_POST, "menge_$id", FILTER_SANITIZE_STRING);
@@ -120,8 +126,7 @@ class AccountController_Rezept extends AccountController_Base
                 }
             }
         }
-        var_dump($categories);
-return;
+
         //$user = Benutzer::findByLoginname($loginname);
 //
 //        if ($user->pk > 0) {
@@ -160,11 +165,10 @@ return;
                 // todo: Bild in Datenbank ablegen
                 if (!uploadPicture($subdir, $mainImage)) {
                     $errors[] = "Fehler beim Bilder-Upload";
-                    self::renderRezepte($errors);
+                    self::renderCreateRezept($errors);
                 }
             }
-            //Layout::setBodyRenderer(BODY);
-            self::renderRezepte([]);
+            self::renderCreateRezept([]);
 //            $user = Benutzer::createAccount($realname, $loginname, $pw1, $email);
 //            if ($user->pk > 0) {
 //                $_SESSION["realname"] = $realname;
@@ -173,7 +177,7 @@ return;
 //                self::renderThankYou();
 //            }
         } else {
-            self::renderRezepte($errors);
+            self::renderListRezepte($errors);
         }
     }
 }
