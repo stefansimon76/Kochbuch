@@ -53,6 +53,8 @@ class AccountController_Rezept extends AccountController_Base
         $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
         $pictures = normalizeFile($_FILES['image']);
         $errors=[];
+        $zutaten=[];
+        $tasks=[];
         $categories = [];
         $mainImage = null;
         if (count($pictures) > 0) {
@@ -74,7 +76,7 @@ class AccountController_Rezept extends AccountController_Base
 
             if( str_starts_with($key, 'menge_')) {
                 $id=substr($key, strlen('menge_'));
-                $menge = filter_input(INPUT_POST, "menge_$id", FILTER_SANITIZE_STRING);
+                $menge = filter_input(INPUT_POST, "menge_$id", FILTER_VALIDATE_FLOAT);
                 $unit = filter_input(INPUT_POST, "unit_$id", FILTER_SANITIZE_STRING);
                 $name = filter_input(INPUT_POST, "name_$id", FILTER_SANITIZE_STRING);
                 // Menge und Maßeinheit dürfen fehlen, aber
@@ -85,10 +87,7 @@ class AccountController_Rezept extends AccountController_Base
                     continue;
 
                 // todo: Speichern
-                $errors[] = "id:$id";
-                $errors[] = "menge:$menge";
-                $errors[] = "unit:$unit";
-                $errors[] = "name:$name";
+                $zutaten[] = ["menge"=>floatval($menge), "unit"=>$unit, "name"=>$name];
             }
 
             if( str_starts_with($key, 'taskname_')) {
@@ -112,11 +111,7 @@ class AccountController_Rezept extends AccountController_Base
                     }
                     $taskImage = $pictures[0];
                 }
-
-                // todo: Speichern
-                $errors[] = "taskname:$taskname";
-                $errors[] = "taskdesc:$taskdesc";
-                $errors[] = "image:".$taskImage['tmp_name'];
+                $tasks=["name" => $taskname, "desc" => $taskdesc, "image" => $taskImage];
             }
 
             if (str_starts_with($key, "category_")) {
@@ -132,56 +127,20 @@ class AccountController_Rezept extends AccountController_Base
         $rezept->title=$title;
         $rezept->desc = $description;
         $rezept->userid = getCurrentUserID();
-//
-//        if ($user->pk > 0) {
-//            $errors[] = 'Der Anmeldename ist bereits vergeben';
-//        }
-//
-//        if (strlen($loginname) < 5) {
-//            $errors[] = "Der Anmeldename muss mindestens 5 Zeichen lang sein";
-//        }
-//
-//        if (!preg_match('/^[a-zA-Z0-9]+$/', $loginname))
-//        {
-//            $errors[] = "Der Anmeldename darf nur Buchstaben und Ziffern enthalten (keine Sonderzeichen und kein Leerzeichen)";
-//        }
-//
-//        if ($pw1 !== $pw2) {
-//            $errors[] = 'Die Passwörter stimmen nicht überein';
-//        }
-//
-//        if (!$email) {
-//            $errors[] = 'Bitte geben Sie eine korrekte E-Mail Adresse ein';
-//        }
-//
-//        if ($terms !== 'on') {
-//            $errors[] = 'Bitte akzeptieren Sie die Nutzungsbedingungen';
-//        }
-//
-//        $user = Benutzer::findByMail($email);
-//        if ($user->pk > 0) {
-//            $errors[] = 'Die E-Mail Adresse ist bereits einem anderen Benutzer zugeordnet, bitte wählen Sie eine andere.';
-//        }
-//
+        $rezept->zutaten = $zutaten;
+        $rezept->tasks = $tasks;
+
         if (count($errors) == 0) {
             if (isset($mainImage)) {
-                $subdir = ""; // todo: Rezept speichern und id als subdir setzen
+                $subdir = "";
+                // todo: Rezept speichern und id als subdir setzen
                 // todo: Bild in Datenbank ablegen
                 if (!uploadPicture($subdir, $mainImage)) {
                     $errors[] = "Fehler beim Bilder-Upload";
                     self::renderCreateRezept($errors);
                 }
             }
-            self::renderCreateRezept([]);
-//            $user = Benutzer::createAccount($realname, $loginname, $pw1, $email);
-//            if ($user->pk > 0) {
-//                $_SESSION["realname"] = $realname;
-//                $_SESSION["loginname"] = $loginname;
-//                $user->sendActivationMail();
-//                self::renderThankYou();
-//            }
-        } else {
-            self::renderListRezepte($errors);
         }
+        self::renderListRezepte($errors);
     }
 }

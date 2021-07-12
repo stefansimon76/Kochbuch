@@ -1,3 +1,11 @@
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function isPositiveNumber(n) {
+    return isNumber(n) && n>0;
+}
+
 function getRandomId() {
     return Math.random().toString(36).slice(2);
 }
@@ -324,11 +332,39 @@ function validateRezeptForm() {
         insertError("Die Beschreibung muss zwischen 10 und 2000 Zeichen lang sein");
     }
 
+    if (validateMengeInput()) {
+        hasErrors++;
+        insertError("Die Menge muss ein numerischer Wert sein");
+    }
+
     if (hasErrors > 0)
         return false;
 
     prepareCategories();
     return true;
+}
+
+function validateMengeInput() {
+    let categories = document.querySelectorAll('*[name^="menge"]');
+    categories.forEach(element => {
+        // Menge ist optional
+        if (element.value !== "") {
+            // aber wenn die Menge angegeben wurde,
+            // muss es eine gültige Zahl sein
+            // also "," mit "." ersezuen
+            element.value = element.value.replace(/,/g, '.')
+            // und prüfen, ob es sich um einen numerischen Wert handelt
+            // z.B.
+            // "     |    | etwas Salz" (ohne Menge)     => OK
+            // "1,5  | TL | Salz " -> "1.5 | TL | Salz " => OK
+            // "etwas|    | Salz"                        => Fehler
+            if (!isPositiveNumber(element.value)) {
+                insertError("'" + element.value + "' ist kein numerischer Wert");
+                return true;
+            }
+        }
+    });
+    return false;
 }
 
 function prepareCategories() {
