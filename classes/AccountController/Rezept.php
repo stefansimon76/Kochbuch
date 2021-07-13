@@ -185,3 +185,5 @@ class AccountController_Rezept extends AccountController_Base
         self::renderCreateRezept($errors);
     }
 }
+// todo: Bekannter Bug: wenn man im Browser zurück geht kann man dasselbe Rezept mehrfach speichern
+// todo: einzelnes Rezept anzeigen und bearbeiten/löschen
