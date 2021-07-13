@@ -69,6 +69,19 @@ function query(string $sql, mysqli $db = null, int $resultMode = MYSQLI_STORE_RE
     return $result;
 }
 
+function insert(string $sql, mysqli $db = null, int $resultMode = MYSQLI_STORE_RESULT):int {
+    if (is_null($db)) {
+        $db = getDb();
+    }
+
+    $result = mysqli_query($db, $sql, $resultMode);
+    if (!$result) {
+        trigger_error(getDBError(), E_USER_ERROR);
+    }
+
+    return $db->insert_id;
+}
+
 /**
  * @param string $text
  * @param mysqli|null $db

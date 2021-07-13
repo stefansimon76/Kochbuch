@@ -104,6 +104,16 @@ class Kategorie {
         return self::getKategorieFromDatabase($sql);
     }
 
+    public static function saveKategorieForRezept(int $rezept_id, array $categories) {
+        $rezept_categories = self::getListeKategorieByRezeptId($rezept_id);
+        var_dump($rezept_categories);
+        echo "<br>";
+        var_dump($categories);
+        foreach ($categories as $category) {
+            self::insert($category);
+        }
+    }
+
     public static function getAlleKategorien():array {
         $sql = "select `pk`, `parent`, `category_name` from `tab_kategorie`;";
         $result = self::getListeKategorieFromDatabase($sql);

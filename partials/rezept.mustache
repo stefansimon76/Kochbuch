@@ -1,0 +1,13 @@
+{{#rezepte}}
+    <div class="row border rounded mb-1">
+        <div class="col-12 col-lg-4 col-xl-2 p-1">
+            <img width="{{img_width}}" height="{{img_height}}" alt="{{img_name}}" src="{{img_name}}">
+        </div>
+        <div class="col-12 col-lg-8 col-xl-10 p-1">
+            <a class="btn alert-info w-100" href="/rezepte/{{rezept_id}}">{{rezept_title}}</a>
+            <div class="">
+                {{rezept_desc}}
+            </div>
+        </div>
+    </div>
+{{/rezepte}}

@@ -1,14 +1,13 @@
 <div class="card-body">
     <div class="row">
-        <div class="card-text pl-3">
-            <a class="btn btn-light" href="/addRezept">neues Rezept hinzufügen</a>
+        <div class="card-text">
+            <a class="btn btn-primary" href="/addRezept">neues Rezept hinzufügen</a>
         </div>
     </div>
 
-</div>
+    <div id="lstRezepte" class="mt-2">
+        {{>rezept}}
+    </div>
 
-<script type="text/javascript">
-    addZutat();
-    addZutat();
-</script>
+</div>
 

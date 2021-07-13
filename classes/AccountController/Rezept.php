@@ -6,13 +6,49 @@ class AccountController_Rezept extends AccountController_Base
 {
     // ####################################################
     // GET Rezepte-Seite
-    public static function renderListRezepte(array $errors=[]) {
+    public static function renderListRezepte(array $rezepte=[]) {
         $data=[
-            'errors' => $errors,
+            'rezepte' => $rezepte,
         ];
         $data = array_merge($data, $_SESSION["userdata"]);
         Layout::setBodyRenderer(RENDER_BODY_LISTE_REZEPTE);
         echo Layout::getInstance()->render('index', $data);
+    }
+
+    private static function getRezepteForFrontend(array $rezepte):array {
+        $result = [];
+        foreach ($rezepte as $rezept) {
+            $img_name = self::getImageName($rezept);
+            $img_width = 150;
+            $img_height = 120;
+            $result[] = [
+                "img_name" => $img_name,
+                "img_width" => $img_width,
+                "img_height" => $img_height,
+                "rezept_id" => $rezept->id,
+                "rezept_title" => $rezept->title,
+                "rezept_desc" => $rezept->desc
+            ];
+        }
+        return $result;
+    }
+
+    private static function getImageName(Rezept $rezept):string {
+        $storagePath = STORAGE_DIR.'/pictures/'; // pfad auf Server
+        $picturePath = '/storage/pictures/'; // url
+        $img_name = $rezept->id ."/".$rezept->id.".jpg";
+        if (is_file($storagePath.$img_name))
+            // Wenn Datei auf Server vorhanden, URL zurückgeben
+            return $picturePath.$img_name;
+
+        $img_name = $rezept->id ."/".$rezept->id.".png";
+        if (is_file($storagePath.$img_name))
+            // Wenn Datei auf Server vorhanden, URL zurückgeben
+            return $picturePath.$img_name;
+
+        // Wenn Datei auf Server vorhanden, URL zurückgeben
+        // leeres (transparentes) Image zurüchgeben
+        return $picturePath . "blank.png";
     }
 
     public static function renderCreateRezept(array $errors=[]) {
@@ -36,12 +72,18 @@ class AccountController_Rezept extends AccountController_Base
         if ($_SESSION['userdata']['loginname'] === $loginname) {
             self::renderRezepteByUserId(getCurrentUserID());
         } else {
-            self::renderRezepteByUserId(0);
+            self::renderRezepte();
         }
     }
 
+    public static function renderRezepte() {
+        self::renderRezepteByUserId(0);
+    }
+
     public static function renderRezepteByUserId(int $userid) {
-        self::renderListRezepte([]);
+        $rezepte = Rezept::getRezepteByUserid($userid);
+        $rezepte = self::getRezepteForFrontend($rezepte);
+        self::renderListRezepte($rezepte);
     }
 
     // ####################################################
@@ -131,16 +173,15 @@ class AccountController_Rezept extends AccountController_Base
         $rezept->tasks = $tasks;
 
         if (count($errors) == 0) {
+            $subdir = strval(Rezept::save($rezept));
             if (isset($mainImage)) {
-                $subdir = "";
-                // todo: Rezept speichern und id als subdir setzen
-                // todo: Bild in Datenbank ablegen
                 if (!uploadPicture($subdir, $mainImage)) {
                     $errors[] = "Fehler beim Bilder-Upload";
                     self::renderCreateRezept($errors);
                 }
             }
+            redirect("Rezepte");
         }
-        self::renderListRezepte($errors);
+        self::renderCreateRezept($errors);
     }
 }

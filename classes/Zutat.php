@@ -6,8 +6,8 @@ use JetBrains\PhpStorm\Pure;
 
 class Zutat {
     public int $id = 0;
-    public int $name = 0;
-    public string $menge = "";
+    public string $name = "";
+    public float $menge = 0;
     public string $unit = "";
 
     public static function getZutatById(int $id): Zutat {
@@ -37,17 +37,36 @@ class Zutat {
         return self::insert($zutat);
     }
 
+    public static function saveZutatenForRezept(int $rezept_id, array $zutaten) {
+        $rezept_zutaten = self::getListeZutatenByRezeptId($rezept_id);
+        var_dump($rezept_zutaten);
+        echo "<br>";
+        var_dump($zutaten);
+        foreach ($zutaten as $zutat) {
+            self::insert($zutat);
+        }
+    }
+
+    public static function getListeZutatenByRezeptId(int $rezept_id):array {
+        $sql = sprintf("select zutat.`pk`, `menge`, `einheit`, `zutat_name` from `tab_zutaten` zutat join tab_rezept_zutaten rez_zutat on (zutat.pk = rez_zutat.fs_zutaten) where rez_zutat.fs_rezept = %d;",
+            $rezept_id
+        );
+        return self::getListeZutatenFromDatabase($sql);
+    }
+
     private static function insert(Zutat $zutat):int {
-//        $sql = sprintf("INSERT INTO `tab_kategorie` "
-//            . "SET `parent`=%d,"
-//            . "`category_name`='%s';"
-//            , $kat->parent_id
-//            , escapeString($kat->name)
-//        );
-//
-//        query($sql);
-//        $kat = self::getKategorieByNameParent($kat->name, $kat->parent_id);
-//        return $kat->id;
+        $sql = sprintf("INSERT INTO `tab_zutaten` "
+            . "SET `menge`=%f,"
+            . "`einheit`='%s',"
+            . "`zutat_name`='%s';"
+            , $zutat->menge
+            , $zutat->unit
+            , escapeString($zutat->name)
+        );
+
+        query($sql);
+        $kat = self::getKategorieByNameParent($kat->name, $kat->parent_id);
+        return $kat->id;
     }
 
     private static function update(Zutat $zutat):int {

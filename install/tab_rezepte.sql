@@ -31,7 +31,7 @@ CREATE TABLE `tab_rezepte` (
   `pk` int(11) NOT NULL,
   `title` varchar(200) NOT NULL,
   `description` varchar(2000) NOT NULL,
-  `createdz` int(11) NOT NULL,
+  `createdz` datetime NOT NULL DEFAULT current_timestamp(),
   `fs_benutzer` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

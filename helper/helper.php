@@ -73,13 +73,13 @@ function normalizeFile(array $fileinfo):array {
 }
 
 function uploadPicture(String $subdir, array $imageInfo):bool {
-    $picturePath = STORAGE_DIR.'/pictures/'.$subdir.'1/';
+    $picturePath = STORAGE_DIR.'/pictures/'.$subdir.'/';
     if (!is_dir($picturePath)) {
         mkdir($picturePath, 0777, true);
     }
     $filesToCheck = [];
     if (is_dir($picturePath)) {
-        $filename = $picturePath . '1.' . $imageInfo['extension'];
+        $filename = $picturePath . '.' . $imageInfo['extension'];
         $filesToCheck[] = $filename;
         copy($imageInfo['tmp_name'], $filename);
         unlink($imageInfo['tmp_name']);

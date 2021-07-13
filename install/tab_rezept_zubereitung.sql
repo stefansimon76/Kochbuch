@@ -24,13 +24,13 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `tab_rezept_arbeitsschritte`
+-- Tabellenstruktur für Tabelle `tab_rezept_zubereitung`
 --
 
-CREATE TABLE `tab_rezept_arbeitsschritte` (
+CREATE TABLE `tab_rezept_zubereitung` (
   `pk` int(11) NOT NULL,
   `fs_rezept` int(11) NOT NULL,
-  `fs_arbeitsschritte` int(11) NOT NULL
+  `fs_zubereitung` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -38,9 +38,9 @@ CREATE TABLE `tab_rezept_arbeitsschritte` (
 --
 
 --
--- Indizes für die Tabelle `tab_rezept_arbeitsschritte`
+-- Indizes für die Tabelle `tab_rezept_zubereitung`
 --
-ALTER TABLE `tab_rezept_arbeitsschritte`
+ALTER TABLE `tab_rezept_zubereitung`
   ADD PRIMARY KEY (`pk`);
 
 --
@@ -48,9 +48,9 @@ ALTER TABLE `tab_rezept_arbeitsschritte`
 --
 
 --
--- AUTO_INCREMENT für Tabelle `tab_rezept_arbeitsschritte`
+-- AUTO_INCREMENT für Tabelle `tab_rezept_zubereitung`
 --
-ALTER TABLE `tab_rezept_arbeitsschritte`
+ALTER TABLE `tab_rezept_zubereitung`
   MODIFY `pk` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 

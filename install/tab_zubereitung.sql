@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 01. Jul 2021 um 14:51
+-- Erstellungszeit: 13. Jul 2021 um 10:00
 -- Server-Version: 10.3.28-MariaDB
 -- PHP-Version: 8.0.8
 
@@ -24,13 +24,14 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `tab_arbeitsschritte`
+-- Tabellenstruktur für Tabelle `tab_zubereitung`
 --
 
-CREATE TABLE `tab_arbeitsschritte` (
-  `pk` int(11) NOT NULL,
-  `task_name` varchar(100) NOT NULL,
-  `task_description` varchar(2000) NOT NULL
+CREATE TABLE `tab_zubereitung` (
+                                   `pk` int(11) NOT NULL,
+                                   `order` int(11) NOT NULL DEFAULT 1,
+                                   `task_name` varchar(100) NOT NULL,
+                                   `task_description` varchar(2000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -38,20 +39,20 @@ CREATE TABLE `tab_arbeitsschritte` (
 --
 
 --
--- Indizes für die Tabelle `tab_arbeitsschritte`
+-- Indizes für die Tabelle `tab_zubereitung`
 --
-ALTER TABLE `tab_arbeitsschritte`
-  ADD PRIMARY KEY (`pk`);
+ALTER TABLE `tab_zubereitung`
+    ADD PRIMARY KEY (`pk`);
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen
 --
 
 --
--- AUTO_INCREMENT für Tabelle `tab_arbeitsschritte`
+-- AUTO_INCREMENT für Tabelle `tab_zubereitung`
 --
-ALTER TABLE `tab_arbeitsschritte`
-  MODIFY `pk` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `tab_zubereitung`
+    MODIFY `pk` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

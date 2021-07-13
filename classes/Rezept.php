@@ -33,16 +33,21 @@ class Rezept {
     }
 
     private static function insert(Rezept $rezept):int {
-//        $sql = sprintf("INSERT INTO `tab_kategorie` "
-//            . "SET `parent`=%d,"
-//            . "`category_name`='%s';"
-//            , $kat->parent_id
-//            , escapeString($kat->name)
-//        );
-//
-//        query($sql);
-//        $kat = self::getKategorieByNameParent($kat->name, $kat->parent_id);
-//        return $kat->id;
+        $sql = sprintf("INSERT INTO `tab_rezepte` "
+            . "SET `title`='%s',"
+            . "`description`='%s',"
+            . "`createdz`=now(),"
+            . "`fs_benutzer`=%d;"
+            , $rezept->title
+            , $rezept->desc
+            , $rezept->userid
+        );
+
+        $rezept->id = insert($sql);
+        Kategorie::saveKategorieForRezept($rezept->id, $rezept->kategorien);
+        Zutat::saveZutatenForRezept($rezept->id, $rezept->zutaten);
+        Zubereitung::saveZubereitungForRezept($rezept->id, $rezept->tasks);
+        return $rezept->id;
     }
 
     private static function update(Rezept $rezept):int {
@@ -86,22 +91,26 @@ class Rezept {
         $rezept->kategorien = Kategorie::getListeKategorieByRezeptId($rezept->id);
     }
 
-    public static function getAlleRezepte():array {
-//        $sql = "select `pk`, `parent`, `category_name` from `tab_kategorie`;";
-//        $result = self::getListeKategorieFromDatabase($sql);
-//
-//        foreach ($result as $kat) {
-//            $parents = self::getElternKategorien($kat->parent_id);
-//            $kat->name = $parents.$kat->name;
-//        }
-//        return $result;
+    public static function getRezepteByUserid(int $userid):array {
+        $sql = "select `pk`, `title`, `description`, `createdz`, `fs_benutzer` from `tab_rezepte`";
+        if ($userid > 0) {
+            $sql .= " where `fs_benutzer` = $userid";
+        }
+        $result = self::getListeRezepteFromDatabase($sql);
+        foreach ($result as $rezept) {
+            self::completeRezept($rezept);
+        }
+        return $result;
     }
 
     #[Pure]
     private static function get($row):Rezept {
         $result = new Rezept();
         $result->id = (int)$row['pk'];
+        $result->title = $row['title'];
+        $result->desc = $row['description'];
         $result->userid = (int)$row['fs_benutzer'];
+        $result->create_dz = $row['createdz'];
         return $result;
     }
 
