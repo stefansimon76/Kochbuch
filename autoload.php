@@ -17,6 +17,7 @@ define('RENDER_BODY_WELCOME', 'renderWelcome'); // default in Layout.php
 define('RENDER_BODY_CREATE_REZEPT', 'renderCreateRezept');
 define('RENDER_BODY_EDIT_REZEPT', 'renderEditRezept');
 define('RENDER_BODY_LISTE_REZEPTE', 'renderListeRezepte');
+define('RENDER_BODY_SINGLE_REZEPT', 'renderSingleRezept');
 
 $rootDir = __DIR__.'/classes/';
 $autoload = function($className) use($rootDir){

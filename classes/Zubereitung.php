@@ -39,11 +39,15 @@ class Zubereitung {
 
     public static function saveZubereitungForRezept(int $rezept_id, array $zubereitung) {
         $rezept_zubereitung = self::getListeZubereitungByRezeptId($rezept_id);
-        var_dump($rezept_zubereitung);
-        echo "<br>";
-        var_dump($zubereitung);
         foreach ($zubereitung as $task) {
             self::insert($task);
+            $sql = sprintf("INSERT INTO `tab_rezept_zubereitung` "
+                . "SET `fs_rezept`=%d,"
+                . "`fs_zubereitung`=%d;"
+                , $rezept_id
+                , $task->id
+            );
+            insert($sql);
         }
     }
 

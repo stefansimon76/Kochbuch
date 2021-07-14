@@ -39,11 +39,15 @@ class Zutat {
 
     public static function saveZutatenForRezept(int $rezept_id, array $zutaten) {
         $rezept_zutaten = self::getListeZutatenByRezeptId($rezept_id);
-        var_dump($rezept_zutaten);
-        echo "<br>";
-        var_dump($zutaten);
         foreach ($zutaten as $zutat) {
             self::insert($zutat);
+            $sql = sprintf("INSERT INTO `tab_rezept_zutaten` "
+                . "SET `fs_rezept`=%d,"
+                . "`fs_zutaten`=%d;"
+                , $rezept_id
+                , $zutat->id
+            );
+            insert($sql);
         }
     }
 
@@ -64,9 +68,8 @@ class Zutat {
             , escapeString($zutat->name)
         );
 
-        query($sql);
-        $kat = self::getKategorieByNameParent($kat->name, $kat->parent_id);
-        return $kat->id;
+        $zutat->id = insert($sql);
+        return $zutat->id;
     }
 
     private static function update(Zutat $zutat):int {
@@ -104,7 +107,7 @@ class Zutat {
     private static function get($row):Zutat {
         $result = new Zutat();
         $result->id = (int)$row['pk'];
-        $result->menge = $row['menge'];
+        $result->menge = floatval($row['menge']);
         $result->unit = $row['einheit'];
         $result->name = $row['zutat_name'];
         return $result;

@@ -1,0 +1,48 @@
+<div class="card-body">
+    <div class="row flex-row-reverse">
+        <div class="card-text mr-3">
+            <a class="btn btn-danger" href="/deleteRezept/{{rezept_id}}">Rezept löschen</a>
+        </div>
+        <div class="card-text mr-3">
+            <a class="btn btn-primary" href="/editRezept/{{rezept_id}}">Rezept bearbeiten</a>
+        </div>
+    </div>
+
+    {{#rezept}}
+        <h1>{{rezept_title}}</h1>
+<!--        <a class="btn font-weight-bold alert-info w-100 text-primary display-3" href="/rezepte/{{rezept_id}}">{{rezept_title}}</a>-->
+        <div class="p-1">
+            <img width="{{img_width}}" height="{{img_height}}" alt="{{img_name}}" src="{{img_name}}">
+        </div>
+        <h4>Beschreibung</h4>
+        <div class="pb-3 pl-3">
+            {{rezept_desc}}
+        </div>
+
+    {{/rezept}}
+
+    <h4>Zutaten</h4>
+    <div class="">
+        <table class="table w-auto" >
+            <tbody>
+            {{#zutaten}}
+                <tr class="p-0">
+                    <td class="text-right pr-0 pt-0 pb-1 border-0">{{menge}}</td>
+                    <td class="pl-1 pt-0 pb-1 border-0">{{unit}}</td>
+                    <td class="w-100 pt-0 pb-1 border-0">{{name}}</td>
+                </tr>
+            {{/zutaten}}
+            </tbody>
+        </table>
+    </div>
+
+    <h4>Zubereitung</h4>
+    <div class="">
+        {{#zubereitung}}
+            <h6 class="mb-0">{{name}}</h6>
+            <div class="pl-3 pb-3">{{desc}}</div>
+        {{/zubereitung}}
+    </div>
+
+</div>
+

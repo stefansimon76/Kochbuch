@@ -64,6 +64,16 @@ class Rezept {
 //        return $kat->id;
     }
 
+    public static function delete(int $rezept_id) {
+        $sql = sprintf("UPDATE `tab_rezepte` "
+            . "SET `deletedz`=now() WHERE `pk`=%d "
+            . "and fs_benutzer = %d;"
+            , $rezept_id
+            , getCurrentUserID()
+        );
+        query($sql);
+    }
+
     public static function getRezeptFromDatabase($sql):Rezept {
         $result = query($sql);
         if ($row = $result->fetch_assoc()) {
@@ -86,15 +96,17 @@ class Rezept {
     }
 
     private static function completeRezept(Rezept $rezept) {
-        $rezept->tasks = [];
-        $rezept->zutaten = [];
+        $rezept->tasks = Zubereitung::getListeZubereitungByRezeptId($rezept->id);
+        $rezept->zutaten = Zutat::getListeZutatenByRezeptId($rezept->id);
         $rezept->kategorien = Kategorie::getListeKategorieByRezeptId($rezept->id);
     }
 
     public static function getRezepteByUserid(int $userid):array {
         $sql = "select `pk`, `title`, `description`, `createdz`, `fs_benutzer` from `tab_rezepte`";
         if ($userid > 0) {
-            $sql .= " where `fs_benutzer` = $userid";
+            $sql .= " where `fs_benutzer` = $userid and deletedz is null";
+        } else {
+            $sql .=  " where deletedz is null and unlockdz is not null";
         }
         $result = self::getListeRezepteFromDatabase($sql);
         foreach ($result as $rezept) {

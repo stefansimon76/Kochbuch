@@ -5,7 +5,7 @@ declare(strict_types=1);
 class AccountController_Rezept extends AccountController_Base
 {
     // ####################################################
-    // GET Rezepte-Seite
+    // GET Liste Rezepte
     public static function renderListRezepte(array $rezepte=[]) {
         $data=[
             'rezepte' => $rezepte,
@@ -15,20 +15,47 @@ class AccountController_Rezept extends AccountController_Base
         echo Layout::getInstance()->render('index', $data);
     }
 
+    // ####################################################
+    // GET einzelnes Rezept by ID
+    public static function renderRezeptById(int $rezept_id) {
+        $rezept = Rezept::getRezeptById($rezept_id);
+        $zutaten = [];
+        foreach ($rezept->zutaten as $zutat) {
+            $zutaten[] = ["menge" => $zutat->menge, "unit" => $zutat->unit, "name"=>$zutat->name];
+        }
+        $zubereitung = [];
+        foreach ($rezept->tasks as $task) {
+            $zubereitung[] = ["name" => $task->name, "desc" => $task->desc];
+        }
+        $data=[
+            'rezept_id' => $rezept_id,
+            'rezept' => self::getRezeptForFrontend($rezept),
+            'zutaten' => $zutaten,
+            'zubereitung' => $zubereitung,
+        ];
+        $data = array_merge($data, $_SESSION["userdata"]);
+        Layout::setBodyRenderer(RENDER_BODY_SINGLE_REZEPT);
+        echo Layout::getInstance()->render('index', $data);
+    }
+
+    private static function getRezeptForFrontend(Rezept $rezept):array {
+        $img_name = self::getImageName($rezept);
+        $img_width = 150;
+        $img_height = 120;
+        return [
+            "img_name" => $img_name,
+            "img_width" => $img_width,
+            "img_height" => $img_height,
+            "rezept_id" => $rezept->id,
+            "rezept_title" => $rezept->title,
+            "rezept_desc" => $rezept->desc,
+        ];
+    }
+
     private static function getRezepteForFrontend(array $rezepte):array {
         $result = [];
         foreach ($rezepte as $rezept) {
-            $img_name = self::getImageName($rezept);
-            $img_width = 150;
-            $img_height = 120;
-            $result[] = [
-                "img_name" => $img_name,
-                "img_width" => $img_width,
-                "img_height" => $img_height,
-                "rezept_id" => $rezept->id,
-                "rezept_title" => $rezept->title,
-                "rezept_desc" => $rezept->desc
-            ];
+            $result[] = self::getRezeptForFrontend($rezept);
         }
         return $result;
     }
@@ -86,6 +113,11 @@ class AccountController_Rezept extends AccountController_Base
         self::renderListRezepte($rezepte);
     }
 
+    public static function deleteRezept(int $rezept_id) {
+        Rezept::delete($rezept_id);
+        self::renderRezepteByUserId(getCurrentUserID());
+    }
+
     // ####################################################
     // POST addNewRezept
     public static function saveRezept() {
@@ -129,7 +161,11 @@ class AccountController_Rezept extends AccountController_Base
                     continue;
 
                 // todo: Speichern
-                $zutaten[] = ["menge"=>floatval($menge), "unit"=>$unit, "name"=>$name];
+                $zutat = new Zutat();
+                $zutat->menge = floatval($menge);
+                $zutat->unit = $unit;
+                $zutat->name = $name;
+                $zutaten[] = $zutat;
             }
 
             if( str_starts_with($key, 'taskname_')) {
@@ -153,7 +189,11 @@ class AccountController_Rezept extends AccountController_Base
                     }
                     $taskImage = $pictures[0];
                 }
-                $tasks=["name" => $taskname, "desc" => $taskdesc, "image" => $taskImage];
+                $task = new Zubereitung();
+                $task->name = $taskname;
+                $task->desc = $taskdesc;
+                // todo: task image speichern
+                $tasks[]=$task;
             }
 
             if (str_starts_with($key, "category_")) {
@@ -186,4 +226,5 @@ class AccountController_Rezept extends AccountController_Base
     }
 }
 // todo: Bekannter Bug: wenn man im Browser zurück geht kann man dasselbe Rezept mehrfach speichern
-// todo: einzelnes Rezept anzeigen und bearbeiten/löschen
+
+// todo: einzelnes Rezept bearbeiten

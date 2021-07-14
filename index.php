@@ -58,9 +58,11 @@ router('/pwchange', $http404,[AccountController_Passwort::class,'renderChangePas
 router('/pwchange', $http404,[AccountController_Passwort::class,'postChangePasswort'], 'POST');
 router('/register', $http404,[AccountController_Register::class,'renderRegister'], 'GET');
 router('/register', $http404,[AccountController_Register::class,'postRegister'], 'POST');
+router('/rezepte/([0-9]+)', $http404,[AccountController_Rezept::class,'renderRezeptById'], 'GET');
 router('/rezepte/([a-zA-Z0-9]+)', $http404,[AccountController_Rezept::class,'renderRezepteByLoginname'], 'GET');
 router('/rezepte', $http404,[AccountController_Rezept::class, 'renderRezepte'], 'GET');
 router('/saveRezept', $http404,[AccountController_Rezept::class,'saveRezept'], 'POST');
+router('/deleteRezept/([0-9]+)', $http404,[AccountController_Rezept::class,'deleteRezept'], 'GET');
 router('/addRezept', $http404,[AccountController_Rezept::class,'renderCreateRezept'], 'GET');
 router('/editRezept', $http404,[AccountController_Rezept::class,'editRezept'], 'GET');
 router('/password_forgotten', $http404,[AccountController_Passwort::class,'renderPasswortVergessen'], 'GET');

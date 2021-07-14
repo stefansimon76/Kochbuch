@@ -1,5 +1,5 @@
 <div class="card-body" onload="onLoad();">
-    <form method="POST" action="/saveRezept" enctype="multipart/form-data" onsubmit="return validateRezeptForm()">
+    <form method="POST" action="/saveRezept" enctype="multipart/form-data" onsubmit="return validateRezeptForm();">
         <input type="hidden" name="rezept_id" value="{{rezept_id}}">
 
         <h4 class="card-title">Rezept anlegen</h4>
@@ -81,7 +81,7 @@
 
         <div class="row mt-2">
             <div class="col">
-                <button class="btn btn-secondary" onclick="addZutat();">+1 Zutat</button>
+                <p class="btn btn-secondary" onclick="addZutat();">+1 Zutat</p>
             </div>
         </div>
 
@@ -108,7 +108,7 @@
 
         <div class="row mt-2">
             <div class="col">
-                <button class="btn btn-secondary" onclick="addTask();">+1 Arbeitsschritt</button>
+                <p class="btn btn-secondary" onclick="addTask();">+1 Arbeitsschritt</p>
             </div>
         </div>
 
@@ -125,6 +125,6 @@
 
 <script type="text/javascript">
     addZutat();
-    addZutat();
+    addTask();
 </script>
 
