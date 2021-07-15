@@ -51,17 +51,20 @@ class Rezept {
     }
 
     private static function update(Rezept $rezept):int {
-//        $sql = sprintf("UPDATE `tab_kategorie` "
-//            . "SET `parent`=%d,"
-//            . "`category_name`='%s' WHERE `pk`=%d;"
-//            , $kat->parent_id
-//            , escapeString($kat->name)
-//            , $kat->id
-//        );
-//
-//        query($sql);
-//        $kat = self::getKategorieByNameParent($kat->name, $kat->parent_id);
-//        return $kat->id;
+        $sql = sprintf("UPDATE `tab_rezepte` "
+            . "SET `title`='%s',"
+            . "`description`='%s' WHERE `pk`=%d;"
+            , escapeString($rezept->title)
+            , escapeString($rezept->desc)
+            , $rezept->id
+        );
+
+        query($sql);
+
+        Kategorie::saveKategorieForRezept($rezept->id, $rezept->kategorien);
+        Zutat::saveZutatenForRezept($rezept->id, $rezept->zutaten);
+        Zubereitung::saveZubereitungForRezept($rezept->id, $rezept->tasks);
+        return $rezept->id;
     }
 
     public static function delete(int $rezept_id) {
@@ -126,6 +129,7 @@ class Rezept {
         return $result;
     }
 
+    /** @noinspection PhpUnused */
     #[ArrayShape(['id' => "int", 'userid' => "int", 'title' => "string", 'description' => "string", 'createdz' => "string", 'zubereitung' => "array", 'zutaten' => "array", 'kategorien' => "array"])]
     public function toArray(): array {
         return array (

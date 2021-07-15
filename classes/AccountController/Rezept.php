@@ -78,20 +78,33 @@ class AccountController_Rezept extends AccountController_Base
         return $picturePath . "blank.png";
     }
 
-    public static function renderCreateRezept(array $errors=[]) {
-        $kategorien = Kategorie::getAlleKategorien();
+    public static function renderEditRezept(string $str_rezept_id = "0", array $errors = []) {
+        $rezept_id = (int) $str_rezept_id;
+        $errors = [];
         $categories = [];
+        $rezept = new Rezept();
+        if ($rezept_id > 0) {
+            $rezept = Rezept::getRezeptById($rezept_id);
+            if ($rezept->userid !== getCurrentUserID()) {
+                redirect("/rezepte/".$str_rezept_id);
+            }
+        }
+
+        $kategorien = Kategorie::getAlleKategorien();
         foreach ($kategorien as $index => $kat) {
             $categories[$index]["id"] = "pk".$kat->id;
             $categories[$index]["name"] = $kat->name;
+            $categories[$index]["checked"] = Kategorie::testKategorieByRezeptId($rezept_id, $kat->id) ? "checked" : "";
         }
         $data=[
             'errors' => $errors,
             'categories' =>$categories,
-            'rezept_id' => "0"
+            'rezept_id' => $rezept_id,
+            'title' => $rezept->title,
+            'description' => $rezept->desc,
         ];
         $data = array_merge($data, $_SESSION["userdata"]);
-        Layout::setBodyRenderer(RENDER_BODY_CREATE_REZEPT);
+        Layout::setBodyRenderer(RENDER_BODY_EDIT_REZEPT);
         echo Layout::getInstance()->render('index', $data);
     }
 
@@ -217,12 +230,12 @@ class AccountController_Rezept extends AccountController_Base
             if (isset($mainImage)) {
                 if (!uploadPicture($subdir, $mainImage)) {
                     $errors[] = "Fehler beim Bilder-Upload";
-                    self::renderCreateRezept($errors);
+                    self::renderEditRezept(strval($rezept_id), $errors);
                 }
             }
-            redirect("Rezepte");
+            redirect("rezepte/" . $subdir);
         }
-        self::renderCreateRezept($errors);
+        self::renderEditRezept(strval($rezept_id), $errors);
     }
 }
 // todo: Bekannter Bug: wenn man im Browser zurück geht kann man dasselbe Rezept mehrfach speichern

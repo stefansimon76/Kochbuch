@@ -24,12 +24,12 @@ function cookieOk() {
 
 function addZutat() {
     let liste = document.getElementById("lstZutaten");
-    liste.appendChild(createEmptyZutatRow());
+    liste.appendChild(createEmptyZutatRow(liste.children.length + 1));
 }
 
-function createEmptyZutatRow() {
+function createEmptyZutatRow(id) {
     let row = createBorder()
-    row.id = getRandomId()
+    row.id = "zutat_" + id
 
     let content = createDiv("row")
     content.appendChild(createZutatColumnMenge(row.id))
@@ -108,6 +108,40 @@ function createRemoveButton($parentControl, $rowId) {
     buttonDiv.onclick = function () {
         let liste = document.getElementById($parentControl);
         liste.removeChild(document.getElementById($rowId));
+        for (let i = 0; i < liste.children.length; i++) {
+            let child = liste.children[i];
+            let sub = child.querySelectorAll("input,textarea")
+            if (child.id.startsWith("zutat")) {
+                let id = "zutat_" + (i + 1);
+                for (let k = 0; k < sub.length; k++) {
+                    let zutat = sub[k];
+                    if (zutat.getAttribute("name").startsWith("menge")) {
+                        zutat.setAttribute("name", "menge_" + id)
+                    }
+                    if (zutat.getAttribute("name").startsWith("unit")) {
+                        zutat.setAttribute("name", "unit_" + id)
+                    }
+                    if (zutat.getAttribute("name").startsWith("name")) {
+                        zutat.setAttribute("name", "name_" + id)
+                    }
+                }
+            }
+            if (child.id.startsWith("task")) {
+                let id = "task_" + (i + 1);
+                for (let k = 0; k < sub.length; k++) {
+                    let task = sub[k];
+                    if (task.getAttribute("name").startsWith("taskname")) {
+                        task.setAttribute("name", "taskname_" + id)
+                    }
+                    if (task.getAttribute("name").startsWith("taskdesc")) {
+                        task.setAttribute("name", "taskdesc_" + id)
+                    }
+                    if (task.getAttribute("name").startsWith("taskimg")) {
+                        task.setAttribute("name", "taskimg_" + id)
+                    }
+                }
+            }
+        }
     };
 
     columnDiv.appendChild(buttonDiv);
@@ -117,12 +151,12 @@ function createRemoveButton($parentControl, $rowId) {
 
 function addTask() {
     let liste = document.getElementById("lstTasks");
-    liste.appendChild(createEmptyTaskRow());
+    liste.appendChild(createEmptyTaskRow(liste.children.length + 1));
 }
 
-function createEmptyTaskRow() {
+function createEmptyTaskRow(id) {
     let row = createBorder()
-    row.id = getRandomId()
+    row.id = "task_" + id
 
     //let content = createDiv("row")
     row.appendChild(createTaskHeader(row.id))

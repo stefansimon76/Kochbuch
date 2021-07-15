@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 14. Jul 2021 um 12:07
+-- Erstellungszeit: 15. Jul 2021 um 13:00
 -- Server-Version: 10.3.28-MariaDB
 -- PHP-Version: 8.0.8
 
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tab_rezepte` (
-                               `pk` int(11) NOT NULL,
+                               `pk` bigint(11) UNSIGNED NOT NULL,
                                `title` varchar(200) NOT NULL,
                                `description` varchar(2000) NOT NULL,
                                `createdz` datetime NOT NULL DEFAULT current_timestamp(),
-                               `fs_benutzer` int(11) NOT NULL,
+                               `fs_benutzer` bigint(11) UNSIGNED NOT NULL,
                                `deletedz` datetime DEFAULT NULL,
                                `unlockdz` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -55,7 +55,7 @@ ALTER TABLE `tab_rezepte`
 -- AUTO_INCREMENT für Tabelle `tab_rezepte`
 --
 ALTER TABLE `tab_rezepte`
-    MODIFY `pk` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+    MODIFY `pk` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

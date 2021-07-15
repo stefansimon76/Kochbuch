@@ -11,6 +11,7 @@ class Kategorie {
 
     public const SPLITTER = " --> ";
 
+    /** @noinspection PhpUnused */
     public static function saveDefaultKategorien() {
         self::saveByName("Hauptgerichte".Kategorie::SPLITTER."Kartoffeln");
         self::saveByName("Hauptgerichte".Kategorie::SPLITTER."Nudeln");
@@ -105,12 +106,15 @@ class Kategorie {
     }
 
     public static function saveKategorieForRezept(int $rezept_id, array $categories) {
-        $rezept_categories = self::getListeKategorieByRezeptId($rezept_id);
-        var_dump($rezept_categories);
-        echo "<br>";
-        var_dump($categories);
+        self::deleteKategorieByRezeptId($rezept_id);
         foreach ($categories as $category) {
-            self::insert($category);
+            $sql = sprintf("INSERT INTO `tab_rezept_kategorie` "
+                . "SET `fs_rezept`=%d,"
+                . "`fs_kategorie`=%d;"
+                , $rezept_id
+                , $category->id
+            );
+            insert($sql);
         }
     }
 
@@ -144,6 +148,27 @@ class Kategorie {
         return self::getListeKategorieFromDatabase($sql);
     }
 
+    public static function testKategorieByRezeptId(int $rezept_id, int $category_id):bool {
+        $sql = sprintf("select count(kat.`pk`) anz from `tab_kategorie` kat "
+            . "join tab_rezept_kategorie rez_kat on (kat.pk = rez_kat.fs_kategorie) "
+            . "where rez_kat.fs_rezept = %d and kat.`pk` = %d;"
+            , $rezept_id
+            , $category_id
+        );
+        $result=query($sql);
+        if ($row = $result->fetch_assoc()) {
+            return (int)$row['anz'] > 0;
+        }
+        return false;
+    }
+
+    public static function deleteKategorieByRezeptId(int $rezept_id) {
+        $sql = sprintf("delete from `tab_rezept_kategorie` where fs_rezept = %d;",
+            $rezept_id
+        );
+        query($sql);
+    }
+
     #[Pure]
     private static function get($row):Kategorie {
         $result = new Kategorie();
@@ -153,6 +178,7 @@ class Kategorie {
         return $result;
     }
 
+    /** @noinspection PhpUnused */
     #[ArrayShape(['id' => "int", 'name' => "string", 'parent' => "int"])]
     public function toArray(): array {
         return array (

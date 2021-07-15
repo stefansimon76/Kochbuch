@@ -14,7 +14,6 @@ define('RENDER_ACC_PW_CHANGE', 'renderPasswortChange');
 define('RENDER_ACC_THANKS', 'renderThanksForRegister');
 
 define('RENDER_BODY_WELCOME', 'renderWelcome'); // default in Layout.php
-define('RENDER_BODY_CREATE_REZEPT', 'renderCreateRezept');
 define('RENDER_BODY_EDIT_REZEPT', 'renderEditRezept');
 define('RENDER_BODY_LISTE_REZEPTE', 'renderListeRezepte');
 define('RENDER_BODY_SINGLE_REZEPT', 'renderSingleRezept');

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 01. Jul 2021 um 14:36
+-- Erstellungszeit: 15. Jul 2021 um 12:51
 -- Server-Version: 10.3.28-MariaDB
 -- PHP-Version: 8.0.8
 
@@ -28,9 +28,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tab_kategorie` (
-  `pk` int(11) NOT NULL,
-  `parent` int(11) NOT NULL DEFAULT 0,
-  `category_name` varchar(100) NOT NULL
+                                 `pk` bigint(11) UNSIGNED NOT NULL,
+                                 `parent` bigint(11) UNSIGNED NOT NULL DEFAULT 0,
+                                 `category_name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `tab_kategorie` (
 -- Indizes für die Tabelle `tab_kategorie`
 --
 ALTER TABLE `tab_kategorie`
-  ADD PRIMARY KEY (`pk`);
+    ADD PRIMARY KEY (`pk`);
 
 --
 -- AUTO_INCREMENT für exportierte Tabellen
@@ -51,7 +51,7 @@ ALTER TABLE `tab_kategorie`
 -- AUTO_INCREMENT für Tabelle `tab_kategorie`
 --
 ALTER TABLE `tab_kategorie`
-  MODIFY `pk` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `pk` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

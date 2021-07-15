@@ -10,42 +10,22 @@ class Zubereitung {
     public string $desc = "";
     public string $name = "";
 
-    public static function getZubereitungById(int $id): Zubereitung {
-        if ($id > 0) {
-            $sql = sprintf("SELECT * FROM `tab_zubereitung` where `pk`= %d;"
-                , $id
-            );
-            return self::getZubereitungFromDatabase($sql);
-        }
-        return new Zubereitung();
-    }
-
-    public static function getZubereitungByRezeptId(int $rezept_id): array {
-        if ($rezept_id > 0) {
-            $sql = sprintf("SELECT * FROM `tab_zubereitung` join tab_rezept_zubereitung rez_zubereitung on (rez_zubereitung.fs_zubereitung = tab_zubereitung.pk) where rez_zubereitung.fs_rezept = %d;"
-                , $rezept_id
-            );
-            return self::getListeZubereitungFromDatabase($sql);
-        }
-        return [];
-    }
-
-    public static function save(Zubereitung $zubereitung):int {
-        if ($zubereitung->id > 0) {
-            return self::update($zubereitung);
-        }
-        return self::insert($zubereitung);
+    public static function deleteZubereitungByRezeptId(int $rezept_id) {
+        $sql = sprintf("delete from `tab_rezept_zutaten` where fs_rezept = %d;",
+            $rezept_id
+        );
+        query($sql);
     }
 
     public static function saveZubereitungForRezept(int $rezept_id, array $zubereitung) {
-        $rezept_zubereitung = self::getListeZubereitungByRezeptId($rezept_id);
+        self::deleteZubereitungByRezeptId($rezept_id);
         foreach ($zubereitung as $task) {
-            self::insert($task);
+            $id = self::insert($task);
             $sql = sprintf("INSERT INTO `tab_rezept_zubereitung` "
                 . "SET `fs_rezept`=%d,"
                 . "`fs_zubereitung`=%d;"
                 , $rezept_id
-                , $task->id
+                , $id
             );
             insert($sql);
         }
@@ -72,28 +52,6 @@ class Zubereitung {
         return $task->id;
     }
 
-    private static function update(Zubereitung $task):int {
-//        $sql = sprintf("UPDATE `tab_kategorie` "
-//            . "SET `parent`=%d,"
-//            . "`category_name`='%s' WHERE `pk`=%d;"
-//            , $kat->parent_id
-//            , escapeString($kat->name)
-//            , $kat->id
-//        );
-//
-//        query($sql);
-//        $kat = self::getKategorieByNameParent($kat->name, $kat->parent_id);
-//        return $kat->id;
-    }
-
-    public static function getZubereitungFromDatabase($sql):Zubereitung {
-        $result = query($sql);
-        if ($row = $result->fetch_assoc()) {
-            return self::get($row);
-        }
-        return new Zubereitung();
-    }
-
     private static function getListeZubereitungFromDatabase(string $sql):array {
         $result = [];
         $mysqli = query($sql);
@@ -113,6 +71,7 @@ class Zubereitung {
         return $result;
     }
 
+    /** @noinspection PhpUnused */
     #[ArrayShape(['id' => "int", 'order' => "int", 'name' => "string", 'desc' => "string"])]
     public function toArray(): array {
         return array (

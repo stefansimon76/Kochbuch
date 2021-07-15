@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Erstellungszeit: 13. Jul 2021 um 10:00
+-- Erstellungszeit: 15. Jul 2021 um 13:01
 -- Server-Version: 10.3.28-MariaDB
 -- PHP-Version: 8.0.8
 
@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tab_zubereitung` (
-                                   `pk` int(11) NOT NULL,
+                                   `pk` bigint(11) UNSIGNED NOT NULL,
                                    `order` int(11) NOT NULL DEFAULT 1,
                                    `task_name` varchar(100) NOT NULL,
                                    `task_description` varchar(2000) NOT NULL
@@ -52,7 +52,7 @@ ALTER TABLE `tab_zubereitung`
 -- AUTO_INCREMENT für Tabelle `tab_zubereitung`
 --
 ALTER TABLE `tab_zubereitung`
-    MODIFY `pk` int(11) NOT NULL AUTO_INCREMENT;
+    MODIFY `pk` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

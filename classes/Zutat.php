@@ -10,42 +10,15 @@ class Zutat {
     public float $menge = 0;
     public string $unit = "";
 
-    public static function getZutatById(int $id): Zutat {
-        if ($id > 0) {
-            $sql = sprintf("SELECT * FROM `tab_zutaten` where `pk`= %d;"
-                , $id
-            );
-            return self::getZutatFromDatabase($sql);
-        }
-        return new Zutat();
-    }
-
-    public static function getZutatenByRezeptId(int $rezept_id): array {
-        if ($rezept_id > 0) {
-            $sql = sprintf("SELECT * FROM `tab_zutaten` join tab_rezept_zutaten rez_zutaten on (rez_zutaten.fs_zutaten = tab_zutaten.pk) where rez_zutaten.fs_rezept = %d;"
-                , $rezept_id
-            );
-            return self::getListeZutatenFromDatabase($sql);
-        }
-        return [];
-    }
-
-    public static function save(Zutat $zutat):int {
-        if ($zutat->id > 0) {
-            return self::update($zutat);
-        }
-        return self::insert($zutat);
-    }
-
     public static function saveZutatenForRezept(int $rezept_id, array $zutaten) {
-        $rezept_zutaten = self::getListeZutatenByRezeptId($rezept_id);
+        self::deleteZutatenByRezeptId($rezept_id);
         foreach ($zutaten as $zutat) {
-            self::insert($zutat);
+            $id = self::insert($zutat);
             $sql = sprintf("INSERT INTO `tab_rezept_zutaten` "
                 . "SET `fs_rezept`=%d,"
                 . "`fs_zutaten`=%d;"
                 , $rezept_id
-                , $zutat->id
+                , $id
             );
             insert($sql);
         }
@@ -56,6 +29,13 @@ class Zutat {
             $rezept_id
         );
         return self::getListeZutatenFromDatabase($sql);
+    }
+
+    public static function deleteZutatenByRezeptId(int $rezept_id) {
+        $sql = sprintf("delete from `tab_rezept_zutaten` where fs_rezept = %d;",
+            $rezept_id
+        );
+        query($sql);
     }
 
     private static function insert(Zutat $zutat):int {
@@ -70,28 +50,6 @@ class Zutat {
 
         $zutat->id = insert($sql);
         return $zutat->id;
-    }
-
-    private static function update(Zutat $zutat):int {
-//        $sql = sprintf("UPDATE `tab_kategorie` "
-//            . "SET `parent`=%d,"
-//            . "`category_name`='%s' WHERE `pk`=%d;"
-//            , $kat->parent_id
-//            , escapeString($kat->name)
-//            , $kat->id
-//        );
-//
-//        query($sql);
-//        $kat = self::getKategorieByNameParent($kat->name, $kat->parent_id);
-//        return $kat->id;
-    }
-
-    public static function getZutatFromDatabase($sql):Zutat {
-        $result = query($sql);
-        if ($row = $result->fetch_assoc()) {
-            return self::get($row);
-        }
-        return new Zutat();
     }
 
     private static function getListeZutatenFromDatabase(string $sql):array {
@@ -113,6 +71,7 @@ class Zutat {
         return $result;
     }
 
+    /** @noinspection PhpUnused */
     #[ArrayShape(['id' => "int", 'menge' => "string", 'unit' => "string", 'name' => "int"])]
     public function toArray(): array {
         return array (
