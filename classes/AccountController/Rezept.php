@@ -81,7 +81,9 @@ class AccountController_Rezept extends AccountController_Base
     public static function renderEditRezept(string $str_rezept_id = "0", array $errors = []) {
         $rezept_id = (int) $str_rezept_id;
         $errors = [];
-        $categories = [];
+        $pre_categories = [];
+        $pre_zutaten = [];
+        $pre_zubereitung = [];
         $rezept = new Rezept();
         if ($rezept_id > 0) {
             $rezept = Rezept::getRezeptById($rezept_id);
@@ -92,13 +94,31 @@ class AccountController_Rezept extends AccountController_Base
 
         $kategorien = Kategorie::getAlleKategorien();
         foreach ($kategorien as $index => $kat) {
-            $categories[$index]["id"] = "pk".$kat->id;
-            $categories[$index]["name"] = $kat->name;
-            $categories[$index]["checked"] = Kategorie::testKategorieByRezeptId($rezept_id, $kat->id) ? "checked" : "";
+            $pre_categories[$index]["id"] = "pk".$kat->id;
+            $pre_categories[$index]["name"] = $kat->name;
+            $pre_categories[$index]["checked"] = Kategorie::testKategorieByRezeptId($rezept_id, $kat->id) ? "checked" : "";
         }
+
+        $zutaten = Zutat::getListeZutatenByRezeptId($rezept_id);
+        foreach ($zutaten as $index => $zutat) {
+            $pre_zutaten[$index]["index"] = $index + 1;
+            $pre_zutaten[$index]["menge"] = $zutat->menge;
+            $pre_zutaten[$index]["unit"] = $zutat->unit;
+            $pre_zutaten[$index]["name"] = $zutat->name;
+        }
+
+        $tasks = Zubereitung::getListeZubereitungByRezeptId($rezept_id);
+        foreach ($tasks as $index => $task) {
+            $pre_zubereitung[$index]["index"] = $index + 1;
+            $pre_zubereitung[$index]["name"] = $task->name;
+            $pre_zubereitung[$index]["desc"] = $task->desc;
+        }
+
         $data=[
             'errors' => $errors,
-            'categories' =>$categories,
+            'categories' =>$pre_categories,
+            'zutaten' =>$pre_zutaten,
+            'zubereitung' =>$pre_zubereitung,
             'rezept_id' => $rezept_id,
             'title' => $rezept->title,
             'description' => $rezept->desc,
@@ -240,4 +260,4 @@ class AccountController_Rezept extends AccountController_Base
 }
 // todo: Bekannter Bug: wenn man im Browser zurück geht kann man dasselbe Rezept mehrfach speichern
 
-// todo: einzelnes Rezept bearbeiten
+// todo: beim Bearbeiten einen vorhandenen Rezeptes geht das Bild verloren --> fixen

@@ -1,0 +1,22 @@
+{{#zutaten}}
+        <div class="border rounded mb-1 bg-light" id="zutat_{{index}}">
+            <div class="row" >
+                <div class="col-6 col-md-2 pr-0">
+                    <label hidden for="menge_zutat_{{index}}"></label>
+                    <input class="form-control" id="menge_zutat_{{index}}" type="text" name="menge_zutat_{{index}}"
+                           placeholder="Menge" value="{{menge}}" minlength="" maxlength="5">
+                </div>
+                <div class="col-6 col-md-2" id="unit_zutat_{{index}}">
+                    <label hidden for="unit_zutat_{{index}}"></label>
+                    <input class="form-control" id="unit_zutat_{{index}}" type="text" name="unit_zutat_{{index}}"
+                           placeholder="Einheit" value="{{unit}}" minlength="" maxlength="10">
+                </div>
+                <div class="col-9 col-md-6 pr-0" id="name_zutat_{{index}}">
+                    <label hidden for="name_zutat_{{index}}"></label>
+                    <input class="form-control" id="name_zutat_{{index}}" type="text" name="name_zutat_{{index}}"
+                           placeholder="Zutatenname" value="{{name}}" minlength="" maxlength="100" required>
+                </div>
+                <div class="col-3 col-md-2 text-nowrap text-right"><div class="btn alert-danger" onclick="removeRow('lstZutaten', 'zutat_{{index}}');">X</div></div>
+            </div>
+        </div>
+{{/zutaten}}

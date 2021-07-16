@@ -48,35 +48,10 @@
                       placeholder="Beschreibung (max. 2000 Zeichen)" maxlength="2000">{{description}}</textarea>
         </div>
 
-<!--        <div class="border rounded mb-1 bg-light" hidden="hidden">-->
-<!--            <div class="row" >-->
-<!--                <div class="col-6 col-md-2 pr-0">-->
-<!--                    <label for="zutat1menge" hidden="hidden"></label>-->
-<!--                    <input class="form-control" id="zutat1menge" type="text" name="zutat1menge"-->
-<!--                           placeholder="Menge"-->
-<!--                           value="{{menge}}" minlength="" maxlength="20">-->
-<!--                </div>-->
-
-<!--                <div class="col-6 col-md-2" id="col_zutat1einheit">-->
-<!--                    <label for="zutat1einheit" hidden="hidden"></label>-->
-<!--                    <input class="form-control" id="zutat1einheit" type="text" name="zutat1einheit"-->
-<!--                           placeholder="Einheit"-->
-<!--                           value="{{name}}" minlength="" maxlength="100">-->
-<!--                </div>-->
-
-<!--                <div class="col-9 col-md-6 pr-0" id="col_zutat1name">-->
-<!--                    <label for="zutat1name" hidden="hidden"></label>-->
-<!--                    <input class="form-control" id="zutat1name" type="text" name="zutat1name"-->
-<!--                           placeholder="Zutatenname"-->
-<!--                           value="{{name}}" minlength="" maxlength="100" required>-->
-<!--                </div>-->
-
-<!--                <div class="col-3 col-md-2 text-nowrap text-right"><div class="btn alert-danger" onclick="delZutat();">X</div></div>-->
-<!--            </div>-->
-<!--        </div>-->
-
         <div class="form-group">
-            <div id="lstZutaten"></div>
+            <div id="lstZutaten">
+                {{>rezept_zutaten}}
+            </div>
         </div>
 
         <div class="row mt-2">
@@ -86,25 +61,10 @@
         </div>
 
         <div class="form-group">
-            <div id="lstTasks" class="mt-2"></div>
+            <div id="lstTasks" class="mt-2">
+                {{>rezept_zubereitung}}
+            </div>
         </div>
-
-<!--        <div id="lstTasks" class="mt-2">-->
-<!--            <div id="task1" class="border rounded mb-1" hidden="hidden">-->
-<!--                <div class="row">-->
-<!--                    <div class="col-9 col-md-10 pr-0">-->
-<!--                        <label for="_task1" hidden="hidden"></label>-->
-<!--                        <input class="form-control" id="_task1" type="text" name="_task1"-->
-<!--                               placeholder="Vorbereitung, Zubereitung, Anweisungen zum Backen bzw. Kochen"-->
-<!--                               value="{{name}}" minlength="" maxlength="2000">-->
-<!--                    </div>-->
-<!--                    <div class="col-3 col-md-2 text-nowrap text-right"><div class="btn alert-danger" onclick="delZutat();">X</div></div>-->
-<!--                </div>-->
-<!--                <label for="descTask1" hidden="hidden"></label>-->
-<!--                <textarea id="descTask1" class="form-control" rows="3"-->
-<!--                          placeholder="Beschreibung" maxlength="2000"></textarea>-->
-<!--            </div>-->
-<!--        </div>-->
 
         <div class="row mt-2">
             <div class="col">

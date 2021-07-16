@@ -106,47 +106,50 @@ function createRemoveButton($parentControl, $rowId) {
     let buttonDiv = createDiv("btn alert-danger");
     buttonDiv.innerHTML = "X";
     buttonDiv.onclick = function () {
-        let liste = document.getElementById($parentControl);
-        liste.removeChild(document.getElementById($rowId));
-        for (let i = 0; i < liste.children.length; i++) {
-            let child = liste.children[i];
-            let sub = child.querySelectorAll("input,textarea")
-            if (child.id.startsWith("zutat")) {
-                let id = "zutat_" + (i + 1);
-                for (let k = 0; k < sub.length; k++) {
-                    let zutat = sub[k];
-                    if (zutat.getAttribute("name").startsWith("menge")) {
-                        zutat.setAttribute("name", "menge_" + id)
-                    }
-                    if (zutat.getAttribute("name").startsWith("unit")) {
-                        zutat.setAttribute("name", "unit_" + id)
-                    }
-                    if (zutat.getAttribute("name").startsWith("name")) {
-                        zutat.setAttribute("name", "name_" + id)
-                    }
+        removeRow($parentControl, $rowId);
+    }
+
+    columnDiv.appendChild(buttonDiv);
+    return columnDiv;
+}
+
+function removeRow($parentControl, $rowId) {
+    let liste = document.getElementById($parentControl);
+    liste.removeChild(document.getElementById($rowId));
+    for (let i = 0; i < liste.children.length; i++) {
+        let child = liste.children[i];
+        let sub = child.querySelectorAll("input,textarea")
+        if (child.id.startsWith("zutat")) {
+            let id = "zutat_" + (i + 1);
+            for (let k = 0; k < sub.length; k++) {
+                let zutat = sub[k];
+                if (zutat.getAttribute("name").startsWith("menge")) {
+                    zutat.setAttribute("name", "menge_" + id)
                 }
-            }
-            if (child.id.startsWith("task")) {
-                let id = "task_" + (i + 1);
-                for (let k = 0; k < sub.length; k++) {
-                    let task = sub[k];
-                    if (task.getAttribute("name").startsWith("taskname")) {
-                        task.setAttribute("name", "taskname_" + id)
-                    }
-                    if (task.getAttribute("name").startsWith("taskdesc")) {
-                        task.setAttribute("name", "taskdesc_" + id)
-                    }
-                    if (task.getAttribute("name").startsWith("taskimg")) {
-                        task.setAttribute("name", "taskimg_" + id)
-                    }
+                if (zutat.getAttribute("name").startsWith("unit")) {
+                    zutat.setAttribute("name", "unit_" + id)
+                }
+                if (zutat.getAttribute("name").startsWith("name")) {
+                    zutat.setAttribute("name", "name_" + id)
                 }
             }
         }
-    };
-
-    columnDiv.appendChild(buttonDiv);
-
-    return columnDiv;
+        if (child.id.startsWith("task")) {
+            let id = "task_" + (i + 1);
+            for (let k = 0; k < sub.length; k++) {
+                let task = sub[k];
+                if (task.getAttribute("name").startsWith("taskname")) {
+                    task.setAttribute("name", "taskname_" + id)
+                }
+                if (task.getAttribute("name").startsWith("taskdesc")) {
+                    task.setAttribute("name", "taskdesc_" + id)
+                }
+                if (task.getAttribute("name").startsWith("taskimg")) {
+                    task.setAttribute("name", "taskimg_" + id)
+                }
+            }
+        }
+    }
 }
 
 function addTask() {

@@ -11,7 +11,7 @@ class Zubereitung {
     public string $name = "";
 
     public static function deleteZubereitungByRezeptId(int $rezept_id) {
-        $sql = sprintf("delete from `tab_rezept_zutaten` where fs_rezept = %d;",
+        $sql = sprintf("delete from `tab_rezept_zubereitung` where fs_rezept = %d;",
             $rezept_id
         );
         query($sql);
@@ -32,7 +32,7 @@ class Zubereitung {
     }
 
     public static function getListeZubereitungByRezeptId(int $rezept_id):array {
-        $sql = sprintf("select task.`pk`, `order`, `task_name`, `task_description` from `tab_zubereitung` task join tab_rezept_zubereitung rez_task on (task.pk = rez_task.fs_zubereitung) where rez_task.fs_rezept = %d;",
+        $sql = sprintf("select task.`pk`, `order`, `task_name`, `task_description` from `tab_zubereitung` task join tab_rezept_zubereitung rez_task on (task.`pk` = rez_task.`fs_zubereitung`) where rez_task.`fs_rezept` = %d order by task.`order`, task.`pk`;",
             $rezept_id
         );
         return self::getListeZubereitungFromDatabase($sql);
