@@ -284,3 +284,4 @@ class AccountController_Rezept extends AccountController_Base
 }
 
 // todo: Rezepte nach Schlüsselwörtern durchsuchen
+// todo: Sortieren/Filtern nach Kategorie
