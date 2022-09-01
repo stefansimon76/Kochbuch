@@ -25,7 +25,7 @@ class AccountController_Base extends BaseController
             );
         }
         setcookie('rememberMeToken','',-1);
-        // Zum Schluß, löschen der Session.
+        // Zum Schluss, löschen der Session.
         session_destroy();
         //echo Layout::getInstance()->render('index', ['infos' => ['Sie haben Ihr Passwort erfolgreich geändert']]);
         header('location:/');

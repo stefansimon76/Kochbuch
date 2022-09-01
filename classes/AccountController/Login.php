@@ -21,6 +21,7 @@ class AccountController_Login extends AccountController_Base
             'loginname'=> $loginname,
         ];
         Layout::setAccRenderer(RENDER_ACC_LOGIN);
+        $data = AccountController_Rezept::getRezeptById(0);
         echo Layout::getInstance()->render('index', $data);
     }
 

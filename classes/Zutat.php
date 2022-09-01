@@ -10,7 +10,7 @@ class Zutat {
     public float $menge = 0;
     public string $unit = "";
 
-    public static function saveZutatenForRezept(int $rezept_id, array $zutaten) {
+    public static function saveZutatenForRezept(int $rezept_id, array $zutaten): void {
         self::deleteZutatenByRezeptId($rezept_id);
         foreach ($zutaten as $zutat) {
             $id = self::insert($zutat);
@@ -31,7 +31,7 @@ class Zutat {
         return self::getListeZutatenFromDatabase($sql);
     }
 
-    public static function deleteZutatenByRezeptId(int $rezept_id) {
+    public static function deleteZutatenByRezeptId(int $rezept_id): void {
         $sql = sprintf("delete from `tab_rezept_zutaten` where fs_rezept = %d;",
             $rezept_id
         );

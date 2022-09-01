@@ -72,14 +72,14 @@ function normalizeFile(array $fileinfo):array {
     return $result;
 }
 
-function uploadPicture(String $subdir, array $imageInfo):bool {
-    $picturePath = STORAGE_DIR.'/pictures/'.$subdir.'/';
+function uploadPicture(String $fn, array $imageInfo):bool {
+    $picturePath = STORAGE_DIR.'/pictures/';
     if (!is_dir($picturePath)) {
         mkdir($picturePath, 0777, true);
     }
     $filesToCheck = [];
     if (is_dir($picturePath)) {
-        $filename = $picturePath . '.' . $imageInfo['extension'];
+        $filename = $picturePath . $fn . '.' . $imageInfo['extension'];
         $filesToCheck[] = $filename;
         copy($imageInfo['tmp_name'], $filename);
         unlink($imageInfo['tmp_name']);

@@ -1,19 +1,19 @@
 {{#zubereitung}}
-        <div id="task_1" class="border rounded mb-1 bg-light">
+        <div id="task_{{index}}" class="border rounded mb-1 bg-light">
             <div class="row">
                 <div class="col-9 col-md-10 pr-0">
                     <label hidden for="taskname_task_{{index}}"></label>
-                    <input class="form-control" id="taskname_task_{{index}}" type="text" name="taskname_task_{{index}}"
+                    <input class="form-control bg-info text-white" id="taskname_task_{{index}}" type="text" name="taskname_task_{{index}}"
                            placeholder="Vorbereitung, Zubereitung, Anweisungen zum Backen bzw. Kochen"
                            value="{{name}}" minlength="" maxlength="2000">
                 </div>
                 <div class="col-3 col-md-2 text-nowrap text-right"><div class="btn alert-danger" onclick="removeRow('lstTasks','task_{{index}}');">X</div></div>
             </div>
             <label hidden for="taskdesc_task_{{index}}"></label>
-            <textarea id="taskdesc_task_{{index}}" class="form-control" rows="3" placeholder="Beschreibung" maxlength="2000">{{desc}}</textarea>
-            <div class="row">
-                <div class="col-md-3">Fügen Sie dem Arbeitsschritt ein Bild hinzu (jpg/png)</div>
-                <div class="col my-auto"><input class="" type="file" name="taskimg_task_{{index}}[]"></div>
-            </div>
+            <textarea id="taskdesc_task_{{index}}" name="taskdesc_task_{{index}}" class="form-control" rows="3" placeholder="Beschreibung" maxlength="2000">{{desc}}</textarea>
+<!--            <div class="row">-->
+<!--                <div class="col-md-3">Fügen Sie dem Arbeitsschritt ein Bild hinzu (jpg/png)</div>-->
+<!--                <div class="col my-auto"><input class="" type="file" name="taskimg_task_{{index}}[]"></div>-->
+<!--            </div>-->
         </div>
 {{/zubereitung}}

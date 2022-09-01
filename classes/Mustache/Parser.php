@@ -148,16 +148,13 @@ class Mustache_Parser
 
                 case Mustache_Tokenizer::T_BLOCK_VAR:
                     if ($this->pragmaBlocks) {
-                        // BLOCKS pragma is enabled, let's do this!
                         if (isset($parent) && $parent[Mustache_Tokenizer::TYPE] === Mustache_Tokenizer::T_PARENT) {
                             $token[Mustache_Tokenizer::TYPE] = Mustache_Tokenizer::T_BLOCK_ARG;
                         }
                         $this->clearStandaloneLines($nodes, $tokens);
                         $nodes[] = $this->buildTree($tokens, $token);
                     } else {
-                        // pretend this was just a normal "escaped" token...
                         $token[Mustache_Tokenizer::TYPE] = Mustache_Tokenizer::T_ESCAPED;
-                        // TODO: figure out how to figure out if there was a space after this dollar:
                         $token[Mustache_Tokenizer::NAME] = '$' . $token[Mustache_Tokenizer::NAME];
                         $nodes[] = $token;
                     }
@@ -198,9 +195,9 @@ class Mustache_Parser
      * @param array $nodes  Parsed nodes
      * @param array $tokens Tokens to be parsed
      *
-     * @return array|null Resulting indent token, if any
+     * @return void Resulting indent token, if any
      */
-    private function clearStandaloneLines(array &$nodes, array &$tokens)
+    private function clearStandaloneLines(array &$nodes, array &$tokens): array|null
     {
         if ($this->lineTokens > 1) {
             // this is the third or later node on this line, so it can't be standalone

@@ -35,6 +35,7 @@ class BaseController
         }
         $_SESSION["renderWelcome"] = true;
         AccountController_Login::renderLogin();
+        //AccountController_Rezept::renderRandomRezept();
     }
 
     protected static function loginUser(Benutzer $user) {
@@ -52,6 +53,7 @@ class BaseController
         $user->updateLastLogin();
         $_SESSION['userid'] = $user->pk;
         $_SESSION["userdata"] = $data;
+        $data = AccountController_Rezept::getRezeptById(0);
         AccountController_Base::renderUserinfo($data);
     }
 }

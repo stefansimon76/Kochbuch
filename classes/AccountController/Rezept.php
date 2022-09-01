@@ -16,24 +16,46 @@ class AccountController_Rezept extends AccountController_Base
     }
 
     // ####################################################
-    // GET einzelnes Rezept by ID
-    public static function renderRezeptById(int $rezept_id) {
+    // zufälliges Rezept anzeigen
+    public static function getRezeptById(int $rezept_id):array {
+        $user_id = 0;
+        if ($rezept_id == 0) {
+            if (isset($_SESSION['userid'])) {
+                $user_id = (int)$_SESSION['userid'];
+            }
+            $rezept_id = Rezept::getRandomRezeptIdByUserid($user_id);
+        }
         $rezept = Rezept::getRezeptById($rezept_id);
         $zutaten = [];
         foreach ($rezept->zutaten as $zutat) {
-            $zutaten[] = ["menge" => $zutat->menge, "unit" => $zutat->unit, "name"=>$zutat->name];
+            $zutaten[] = ["menge" => $zutat->menge == '0' ? '' : $zutat->menge, "unit" => $zutat->unit, "name"=>$zutat->name];
         }
         $zubereitung = [];
         foreach ($rezept->tasks as $task) {
-            $zubereitung[] = ["name" => $task->name, "desc" => $task->desc];
+            //$desc_value = preg_replace('/\n/', '<br/>', $task->desc);
+            $lines = preg_split('/\n/', $task->desc);
+            $desc_value = [];
+            foreach ($lines as $index => $line) {
+                $desc_value[$index] = $line;
+            }
+            $zubereitung[] = ["name" => $task->name, "desc" => $desc_value];
+//            echo print_r($zubereitung); exit();
+//            $zubereitung[] = ["name" => $task->name, "desc" => $task->desc];
         }
         $data=[
             'rezept_id' => $rezept_id,
             'rezept' => self::getRezeptForFrontend($rezept),
             'zutaten' => $zutaten,
             'zubereitung' => $zubereitung,
+            'editable' => $rezept->userid == $user_id,
         ];
-        $data = array_merge($data, $_SESSION["userdata"]);
+        return array_merge($data, $_SESSION["userdata"]);
+    }
+
+    // ####################################################
+    // GET einzelnes Rezept by ID
+    public static function renderRezeptById(int $rezept_id) {
+        $data = self::getRezeptById($rezept_id);
         Layout::setBodyRenderer(RENDER_BODY_SINGLE_REZEPT);
         echo Layout::getInstance()->render('index', $data);
     }
@@ -63,17 +85,17 @@ class AccountController_Rezept extends AccountController_Base
     private static function getImageName(Rezept $rezept):string {
         $storagePath = STORAGE_DIR.'/pictures/'; // pfad auf Server
         $picturePath = '/storage/pictures/'; // url
-        $img_name = $rezept->id ."/".$rezept->id.".jpg";
+        $img_name = "/rezept_".$rezept->id.".jpg";
         if (is_file($storagePath.$img_name))
             // Wenn Datei auf Server vorhanden, URL zurückgeben
             return $picturePath.$img_name;
 
-        $img_name = $rezept->id ."/".$rezept->id.".png";
+        $img_name = "/rezept_".$rezept->id.".png";
         if (is_file($storagePath.$img_name))
             // Wenn Datei auf Server vorhanden, URL zurückgeben
             return $picturePath.$img_name;
 
-        // Wenn Datei auf Server vorhanden, URL zurückgeben
+        // Wenn Datei auf Server vorhanden URL zurückgeben
         // leeres (transparentes) Image zurüchgeben
         return $picturePath . "blank.png";
     }
@@ -102,7 +124,7 @@ class AccountController_Rezept extends AccountController_Base
         $zutaten = Zutat::getListeZutatenByRezeptId($rezept_id);
         foreach ($zutaten as $index => $zutat) {
             $pre_zutaten[$index]["index"] = $index + 1;
-            $pre_zutaten[$index]["menge"] = $zutat->menge;
+            $pre_zutaten[$index]["menge"] = $zutat->menge == '0' ? '' : $zutat->menge;
             $pre_zutaten[$index]["unit"] = $zutat->unit;
             $pre_zutaten[$index]["name"] = $zutat->name;
         }
@@ -122,6 +144,8 @@ class AccountController_Rezept extends AccountController_Base
             'rezept_id' => $rezept_id,
             'title' => $rezept->title,
             'description' => $rezept->desc,
+            'visibility_public' => $rezept->unlock_dz != "" ? "checked" : "",
+            'visibility_private' => $rezept->unlock_dz == "" ? "checked" : "",
         ];
         $data = array_merge($data, $_SESSION["userdata"]);
         Layout::setBodyRenderer(RENDER_BODY_EDIT_REZEPT);
@@ -174,6 +198,7 @@ class AccountController_Rezept extends AccountController_Base
         }
 
         $rezept_id = 0;
+        $unlockdz = '';
         foreach($_POST as $key => $value)
         {
             if ($key === "rezept_id") {
@@ -193,7 +218,6 @@ class AccountController_Rezept extends AccountController_Base
                 if (empty($name))
                     continue;
 
-                // todo: Speichern
                 $zutat = new Zutat();
                 $zutat->menge = floatval($menge);
                 $zutat->unit = $unit;
@@ -205,27 +229,13 @@ class AccountController_Rezept extends AccountController_Base
                 $id=substr($key, strlen('taskname_'));
                 $taskname = filter_input(INPUT_POST, "taskname_$id", FILTER_SANITIZE_STRING);
                 $taskdesc = filter_input(INPUT_POST, "taskdesc_$id", FILTER_SANITIZE_STRING);
-                // Menge und Maßeinheit dürfen fehlen, aber
-                // Zeile ignorieren, wenn $name leer ist
-                // z.B.: bei "etwas rote Lebensmittelfarbe" braucht man keine
-                // Mengenangabe oder Maßeinheit
+                // Taskname muss vorhanden sein, sonst skip und weiter
                 if (empty($taskname))
                     continue;
 
-                $pictures = normalizeFile($_FILES["taskimg_$id"]);
-                $taskImage = null;
-                if (count($pictures) > 0) {
-                    foreach ($pictures as $pic) {
-                        if (!in_array($pic['type'], $allowedTypes)) {
-                            $errors[] = "nicht unterstützter Dateityp: ". $pic['type'];
-                        }
-                    }
-                    $taskImage = $pictures[0];
-                }
                 $task = new Zubereitung();
                 $task->name = $taskname;
                 $task->desc = $taskdesc;
-                // todo: task image speichern
                 $tasks[]=$task;
             }
 
@@ -233,6 +243,14 @@ class AccountController_Rezept extends AccountController_Base
                 if ($value == "true") {
                     $id = (int) substr($key, strlen('category_pk'));
                     $categories[] = Kategorie::getKategorieById($id);
+                }
+            }
+
+            if ($key == "visibility") {
+                if ($value == "visible") {
+                    $unlockdz = date('Y-m-d H:i:s.0');
+                } else {
+                    $unlockdz = '';
                 }
             }
         }
@@ -244,20 +262,25 @@ class AccountController_Rezept extends AccountController_Base
         $rezept->userid = getCurrentUserID();
         $rezept->zutaten = $zutaten;
         $rezept->tasks = $tasks;
+        if ($unlockdz == '') {
+            $rezept->unlock_dz = '';
+        } elseif ($rezept->unlock_dz == '') {
+            $rezept->unlock_dz = $unlockdz;
+        }
+
 
         if (count($errors) == 0) {
-            $subdir = strval(Rezept::save($rezept));
+            $rezept_id = strval(Rezept::save($rezept));
             if (isset($mainImage)) {
-                if (!uploadPicture($subdir, $mainImage)) {
+                if (!uploadPicture('rezept_'.$rezept_id, $mainImage)) {
                     $errors[] = "Fehler beim Bilder-Upload";
                     self::renderEditRezept(strval($rezept_id), $errors);
                 }
             }
-            redirect("rezepte/" . $subdir);
+            redirect("rezepte/" . $rezept_id);
         }
         self::renderEditRezept(strval($rezept_id), $errors);
     }
 }
-// todo: Bekannter Bug: wenn man im Browser zurück geht kann man dasselbe Rezept mehrfach speichern
 
-// todo: beim Bearbeiten einen vorhandenen Rezeptes geht das Bild verloren --> fixen
+// todo: Rezepte nach Schlüsselwörtern durchsuchen

@@ -164,7 +164,7 @@ function createEmptyTaskRow(id) {
     //let content = createDiv("row")
     row.appendChild(createTaskHeader(row.id))
     row.appendChild(createTaskDescription(row.id))
-    row.appendChild(createTaskPicture(row.id));
+    //row.appendChild(createTaskPicture(row.id));
 
     //row.appendChild(content)
     return row
@@ -174,6 +174,7 @@ function createTaskHeader($rowId) {
     let column1 = createDiv("col-9 col-md-10 pr-0")
 
     let input = createTextInput("Vorbereitung, Zubereitung, Anweisungen", 2000)
+    input.className = "form-control bg-info text-white"
     input.id = getRandomId()
     input.name = "taskname_" + $rowId;
 

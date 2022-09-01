@@ -10,6 +10,7 @@ class Rezept {
     public string $title = "";
     public string $desc = "";
     public string $create_dz = "";
+    public string $unlock_dz = "";
 
     public array $tasks = [];
     public array $zutaten = [];
@@ -37,9 +38,11 @@ class Rezept {
             . "SET `title`='%s',"
             . "`description`='%s',"
             . "`createdz`=now(),"
+            . "`unlockdz`=%s,"
             . "`fs_benutzer`=%d;"
             , $rezept->title
             , $rezept->desc
+            , $rezept->unlock_dz == '' ? 'NULL' : '\''.escapeString($rezept->unlock_dz).'\''
             , $rezept->userid
         );
 
@@ -53,8 +56,10 @@ class Rezept {
     private static function update(Rezept $rezept):int {
         $sql = sprintf("UPDATE `tab_rezepte` "
             . "SET `title`='%s',"
+            . "`unlockdz`=%s,"
             . "`description`='%s' WHERE `pk`=%d;"
             , escapeString($rezept->title)
+            , $rezept->unlock_dz == '' ? 'NULL' : '\''.escapeString($rezept->unlock_dz).'\''
             , escapeString($rezept->desc)
             , $rezept->id
         );
@@ -105,7 +110,7 @@ class Rezept {
     }
 
     public static function getRezepteByUserid(int $userid):array {
-        $sql = "select `pk`, `title`, `description`, `createdz`, `fs_benutzer` from `tab_rezepte`";
+        $sql = "select `pk`, `title`, `description`, `createdz`, `fs_benutzer`, `unlockdz` from `tab_rezepte`";
         if ($userid > 0) {
             $sql .= " where `fs_benutzer` = $userid and deletedz is null";
         } else {
@@ -118,6 +123,21 @@ class Rezept {
         return $result;
     }
 
+    public static function getRandomRezeptIdByUserid(int $userid):int {
+        $sql = "select `pk` from `tab_rezepte` ";
+        if ($userid > 0) {
+            $sql .= " where `fs_benutzer` = $userid and deletedz is null";
+        } else {
+            $sql .=  " where deletedz is null and unlockdz is not null";
+        }
+        $sql .= " order by RAND() limit 1";
+        $result = query($sql);
+        if ($row = $result->fetch_assoc()) {
+            return (int)$row['pk'];
+        }
+        return 0;
+    }
+
     #[Pure]
     private static function get($row):Rezept {
         $result = new Rezept();
@@ -126,11 +146,12 @@ class Rezept {
         $result->desc = $row['description'];
         $result->userid = (int)$row['fs_benutzer'];
         $result->create_dz = $row['createdz'];
+        $result->unlock_dz = $row['unlockdz'] === null ? "" : $row['unlockdz'];
         return $result;
     }
 
     /** @noinspection PhpUnused */
-    #[ArrayShape(['id' => "int", 'userid' => "int", 'title' => "string", 'description' => "string", 'createdz' => "string", 'zubereitung' => "array", 'zutaten' => "array", 'kategorien' => "array"])]
+    #[ArrayShape(['id' => "int", 'userid' => "int", 'title' => "string", 'description' => "string", 'createdz' => "string", 'unlockdz' => "string", 'zubereitung' => "array", 'zutaten' => "array", 'kategorien' => "array"])]
     public function toArray(): array {
         return array (
             'id' => $this->id,
@@ -138,6 +159,7 @@ class Rezept {
             'title' => $this->title,
             'description' => $this->desc,
             'createdz' => $this->create_dz,
+            'unlockdz' => $this->unlock_dz,
             'zubereitung' => $this->tasks,
             'zutaten' => $this->zutaten,
             'kategorien' => $this->kategorien,

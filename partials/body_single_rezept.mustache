@@ -40,7 +40,11 @@
     <div class="">
         {{#zubereitung}}
             <h6 class="mb-0">{{name}}</h6>
-            <div class="pl-3 pb-3">{{desc}}</div>
+            <div class="pl-3 pb-3">
+                {{#desc}}
+                    <p>{{.}}</p>
+                {{/desc}}
+            </div>
         {{/zubereitung}}
     </div>
 
