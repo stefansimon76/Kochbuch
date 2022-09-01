@@ -197,7 +197,7 @@ class Mustache_Parser
      *
      * @return void Resulting indent token, if any
      */
-    private function clearStandaloneLines(array &$nodes, array &$tokens): array|null
+    private function clearStandaloneLines(array &$nodes, array &$tokens)
     {
         if ($this->lineTokens > 1) {
             // this is the third or later node on this line, so it can't be standalone
