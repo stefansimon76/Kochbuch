@@ -61,6 +61,21 @@
                             {{>acc_pwchange}} {{! Formular "Passwort ändern" anzeigen }}
                         {{/renderPasswortChange}}
                     </div>
+                    <div id="suche" class="card">
+                        <div class="card-body">
+                            <form method="POST" action="/searchRezept">
+                                <div class="row">
+                                    <div class="col-8 col-md-8 pr-0">
+                                        <label for="suchtext" hidden="hidden"></label>
+                                        <input class="form-control" id="suchtext" type="text" name="suchtext"
+                                               placeholder="Suchtext"
+                                               value="{{suchtext}}" minlength="" maxlength="100">
+                                    </div>
+                                    <div class="col-4 col-md-4 text-nowrap text-right"><button class="btn btn-primary" type="submit">Suchen</button></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                     <div id="news" class="card">
                         <div class="card-body">
                             <h4 class="card-title">Neuigkeiten</h4>

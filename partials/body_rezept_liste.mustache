@@ -1,9 +1,11 @@
 <div class="card-body">
+{{#editable}}
     <div class="row">
         <div class="card-text">
             <a class="btn btn-primary" href="/editRezept/0">neues Rezept hinzufügen</a>
         </div>
     </div>
+{{/editable}}
 
     <div id="lstRezepte" class="mt-2">
         {{>rezept_preview}}

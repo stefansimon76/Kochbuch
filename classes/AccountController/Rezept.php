@@ -7,7 +7,9 @@ class AccountController_Rezept extends AccountController_Base
     // ####################################################
     // GET Liste Rezepte
     public static function renderListRezepte(array $rezepte=[]) {
+        $userid = getCurrentUserID();
         $data=[
+            'editable'=> $userid > 0,
             'rezepte' => $rezepte,
         ];
         $data = array_merge($data, $_SESSION["userdata"]);
@@ -64,7 +66,9 @@ class AccountController_Rezept extends AccountController_Base
         $img_name = self::getImageName($rezept);
         $img_width = 150;
         $img_height = 120;
+        $userid = getCurrentUserID();
         return [
+            "editable" => $rezept->userid == $userid,
             "img_name" => $img_name,
             "img_width" => $img_width,
             "img_height" => $img_height,
@@ -176,7 +180,17 @@ class AccountController_Rezept extends AccountController_Base
     }
 
     // ####################################################
-    // POST addNewRezept
+    // POST searchRezept
+    public static function searchRezept() {
+        $suchtext = filter_input(INPUT_POST, 'suchtext', FILTER_SANITIZE_STRING);
+        //echo $suchtext;
+        $arrRezepte=Rezept::findRezeptBySuchtext($suchtext);
+        $rezepte = self::getRezepteForFrontend($arrRezepte);
+        self::renderListRezepte($rezepte);
+    }
+
+    // ####################################################
+    // POST saveRezept
     public static function saveRezept() {
         $allowedTypes = ['image/jpeg','image/png'];
 

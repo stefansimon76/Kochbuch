@@ -1,14 +1,10 @@
 <div class="card-body">
-    <div class="row flex-row-reverse">
-        <div class="card-text mr-3">
-            <a class="btn btn-danger" href="/deleteRezept/{{rezept_id}}">Rezept löschen</a>
-        </div>
-        <div class="card-text mr-3">
-            <a class="btn btn-primary" href="/editRezept/{{rezept_id}}">Rezept bearbeiten</a>
-        </div>
-    </div>
 
     {{#rezept}}
+        {{#editable}}
+            {{>rezept_edit_delete}}
+        {{/editable}}
+
         <h1>{{rezept_title}}</h1>
 <!--        <a class="btn font-weight-bold alert-info w-100 text-primary display-3" href="/rezepte/{{rezept_id}}">{{rezept_title}}</a>-->
         <div class="p-1">

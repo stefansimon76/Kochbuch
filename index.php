@@ -62,6 +62,7 @@ router('/rezepte/([0-9]+)', $http404,[AccountController_Rezept::class,'renderRez
 router('/rezepte/([a-zA-Z0-9]+)', $http404,[AccountController_Rezept::class,'renderRezepteByLoginname'], 'GET');
 router('/rezepte', $http404,[AccountController_Rezept::class, 'renderRezepte'], 'GET');
 router('/saveRezept', $http404,[AccountController_Rezept::class,'saveRezept'], 'POST');
+router('/searchRezept', $http404,[AccountController_Rezept::class,'searchRezept']);
 router('/deleteRezept/([0-9]+)', $http404,[AccountController_Rezept::class,'deleteRezept'], 'GET');
 router('/editRezept/([0-9]+)', $http404,[AccountController_Rezept::class,'renderEditRezept'], 'GET');
 router('/password_forgotten', $http404,[AccountController_Passwort::class,'renderPasswortVergessen'], 'GET');

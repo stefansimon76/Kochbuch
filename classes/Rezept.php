@@ -26,6 +26,29 @@ class Rezept {
         return new Rezept();
     }
 
+    public static function findRezeptBySuchtext(string $suchtext) : array {
+        $sql = sprintf("select distinct r.pk from tab_rezepte r
+    join tab_rezept_zubereitung trz on r.pk = trz.fs_rezept
+         join tab_zubereitung tz on trz.fs_zubereitung = tz.pk
+         where tz.task_description like '%%%s%%'
+            and r.deletedz is null;", escapeString($suchtext));
+        //echo $sql;
+        $rezeptIds="";
+        $mysqli = query($sql);
+        while($row = $mysqli->fetch_assoc()){
+            if ($rezeptIds == "") {
+                $rezeptIds = $row['pk'];
+            } else {
+                $rezeptIds .= ", " . $row['pk'];
+            }
+        }
+        if ($rezeptIds != "") {
+            $sql = "SELECT * FROM `tab_rezepte` where `pk` in (" . $rezeptIds . ")";
+            return self::getListeRezepteFromDatabase($sql);
+        }
+        return [];
+    }
+
     public static function save(Rezept $rezept):int {
         if ($rezept->id > 0) {
             return self::update($rezept);

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="f0fbdcde-027c-414d-ba05-c0bdc68adb36" name="retro-planer.de/kochbuch" url="http://retro-planer.de">
-        <fileTransfer rootFolder="/htdocs/kochbuch" host="retro-planer.de" port="21">
+      <webServer id="f0fbdcde-027c-414d-ba05-c0bdc68adb36" name="ionos/kochbuch" url="http://217.160.215.50/kochbuch/">
+        <fileTransfer rootFolder="/var/www/html" accessType="SFTP" host="217.160.215.50" port="22" sshConfigId="0789befa-2cf5-4a97-9e8f-4343539fc7a7" sshConfig="root@217.160.215.50:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

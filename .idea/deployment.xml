@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="retro-planer.de/kochbuch" preserveTimestamps="false" remoteFilesAllowedToDisappearOnAutoupload="false" autoUploadExternalChanges="true">
+  <component name="PublishConfigData" autoUpload="Always" serverName="ionos/kochbuch" preserveTimestamps="false" remoteFilesAllowedToDisappearOnAutoupload="false" autoUploadExternalChanges="true">
     <serverData>
-      <paths name="retro-planer.de/kochbuch">
+      <paths name="ionos/kochbuch">
         <serverdata>
           <mappings>
-            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/kochbuch" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

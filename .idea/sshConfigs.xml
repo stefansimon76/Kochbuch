@@ -3,6 +3,7 @@
   <component name="SshConfigs">
     <configs>
       <sshConfig authType="PASSWORD" host="retro-planer.de" id="f5b6c1c8-9563-41a5-90a8-81db20db7ebd" port="22" nameFormat="DESCRIPTIVE" username="web528" />
+      <sshConfig authType="PASSWORD" connectionConfig="{&quot;serverAliveInterval&quot;:300}" host="217.160.215.50" id="0789befa-2cf5-4a97-9e8f-4343539fc7a7" port="22" nameFormat="DESCRIPTIVE" username="root" useOpenSSHConfig="true" />
     </configs>
   </component>
 </project>

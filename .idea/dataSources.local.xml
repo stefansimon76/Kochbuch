@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal">
+  <component name="dataSourceStorageLocal" created-in="PS-222.4167.33">
     <data-source name="Kochbuch" uuid="d56567f7-6b1e-4fe0-bc0c-f953eac13a50">
-      <database-info product="MariaDB" version="10.1.47-MariaDB-0+deb9u1" jdbc-version="4.2" driver-name="MariaDB Connector/J" driver-version="2.6.0" dbms="MARIADB" exact-version="10.1.47" exact-driver-version="2.6">
+      <database-info product="MariaDB" version="10.3.28-MariaDB" jdbc-version="4.2" driver-name="MariaDB Connector/J" driver-version="3.0.7" dbms="MARIADB" exact-version="10.3.28" exact-driver-version="3.0">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
       <secret-storage>master_key</secret-storage>
-      <user-name>web528_kochbuch</user-name>
+      <user-name>root</user-name>
       <schema-mapping>
         <introspection-scope>
           <node kind="schema" qname="@" />
@@ -16,7 +16,7 @@
       </schema-mapping>
       <ssh-properties>
         <enabled>true</enabled>
-        <ssh-config-id>f5b6c1c8-9563-41a5-90a8-81db20db7ebd</ssh-config-id>
+        <ssh-config-id>0789befa-2cf5-4a97-9e8f-4343539fc7a7</ssh-config-id>
       </ssh-properties>
     </data-source>
   </component>
